@@ -1,0 +1,790 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>Sendgrid Email Using Rest API | monika</title>
+    <link href="Sendgrid%20Email%20Using%20Rest%20API_files/bootstrap.min.css" rel="stylesheet">
+    <link href="Sendgrid%20Email%20Using%20Rest%20API_files/font-awesome.min.css" rel="stylesheet">
+    <link href="Sendgrid%20Email%20Using%20Rest%20API_files/lightbox.css" rel="stylesheet"> 
+    <link href="Sendgrid%20Email%20Using%20Rest%20API_files/animate.min.css" rel="stylesheet"> 
+	<link href="Sendgrid%20Email%20Using%20Rest%20API_files/main.css" rel="stylesheet">
+	<link href="Sendgrid%20Email%20Using%20Rest%20API_files/responsive.css" rel="stylesheet">
+
+    <!--[if lt IE 9]>
+	    <script src="js/html5shiv.js"></script>
+	    <script src="js/respond.min.js"></script>
+    <![endif]-->       
+    <meta name="viewport" content="width=device-width">
+    <link rel="shortcut icon" href="http://localhost/monika/images/ico/favicon.ico">
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="http://localhost/monika/images/ico/apple-touch-icon-144-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="http://localhost/monika/images/ico/apple-touch-icon-114-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="http://localhost/monika/images/ico/apple-touch-icon-72-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" href="http://localhost/monika/images/ico/apple-touch-icon-57-precomposed.png">
+    <script async="" src="Sendgrid%20Email%20Using%20Rest%20API_files/panorama.js"></script><iframe id="pxcelframe" title="pxcelframe" style="display: none;" src="//t.sharethis.com/a/t_.htm?ver=1.1109.23349&amp;cid=c010#rnd=1673417847783&amp;cid=c010&amp;dmn=localhost&amp;gdpr_domain=false&amp;tt=t.dhj&amp;dhjLcy=451&amp;lbl=pxcel&amp;flbl=pxcel&amp;ll=d&amp;ver=1.1109.23349&amp;ell=d&amp;cck=__stid&amp;pn=%2Fmonika%2Fblog%2F2022%2F02%2Fsendgrid-send-emails-using-rest-api.php&amp;qs=na&amp;rdn=localhost&amp;rpn=%2Fmonika%2Fblog%2F2022%2F02%2Fsendgrid-send-emails-using-rest-api.php&amp;rqs=na&amp;cc=IN&amp;cont=AS&amp;ipaddr="></iframe><script type="text/javascript" async="" src="Sendgrid%20Email%20Using%20Rest%20API_files/analytics.js"></script><script async="" src="Sendgrid%20Email%20Using%20Rest%20API_files/gtm.js"></script><script type="text/javascript" id="async-buttons" src="Sendgrid%20Email%20Using%20Rest%20API_files/async-buttons.js"></script><script type="text/javascript">var switchTo5x=true;</script>
+    <script type="text/javascript" src="Sendgrid%20Email%20Using%20Rest%20API_files/buttons.js"></script>
+    <script type="text/javascript">stLight.options({publisher: "7e8eb33b-fbe0-4915-9b93-09490e3d10df", doNotHash: false, doNotCopy: false, hashAddressBar: false});</script>
+	<style>
+	.monika-content-p, .monika-previous-post, .monika-next-post{
+		font-family: Georgia,Cambria,"Times New Roman",Times,serif;
+		letter-spacing: .003rem !important;
+		font-weight: 400;
+		font-style: normal;
+		font-size: 21px;
+		line-height: 1.58;
+		color: rgba(12, 12, 12, 0.7);
+	}
+	.monika-sub-heading{
+		font-style: normal;
+		font-size: 34px;
+		margin-left: -2.13px;
+		line-height: 1.15;
+		letter-spacing: -.015em;
+		font-weight: 600;
+		font-family: "Lucida Grande","Lucida Sans Unicode","Lucida Sans",Geneva,Arial,sans-serif;
+		color: rgba(0, 0, 0, 0.7);
+	}
+	.post-nav li a i {
+		color: #00a1f1 !important;
+	}
+	.post-nav li a {
+		color: #00a1f1 !important;
+		
+	}
+	
+	.post-fixed-div{
+		position:fixed;
+		bottom:0;
+		z-index: 1100;
+		width:100%;
+		height:56px;
+	}
+	
+	.sticky-container{
+		padding:0px;
+		margin:0px;
+		position:fixed;
+		bottom:0;
+		
+		z-index: 1100;
+	}
+	.sticky li{
+		list-style-type:none;
+		background-color:#fff;
+		color:#efefef;
+		height:43px;
+		padding:0px;
+		margin:0px 0px 1px 0px;
+		-webkit-transition:all 0.25s ease-in-out;
+		-moz-transition:all 0.25s ease-in-out;
+		-o-transition:all 0.25s ease-in-out;
+		transition:all 0.25s ease-in-out;
+		cursor:pointer;
+	}
+
+	.sticky li img{
+		float:left;
+		margin:5px 4px;
+		margin-right:5px;
+	}
+
+	</style>
+	<script src="Sendgrid%20Email%20Using%20Rest%20API_files/jquery.min.js"></script>
+	<script>
+		$(document).ready(function() {
+			
+			
+			
+			$('.monika-social-share').hide(); //hide your div initially
+			var topOfOthDiv = $("#stop-social-fixed-div").offset().top;
+			var videohide = $("#stop-monika-video-play").offset().top;
+			$(window).on('scroll', function() {
+				
+				if($(window).scrollTop() >= videohide) { //scrolled past the other div?
+					$('#monika_video_play').hide(); //reached the desired point -- show div
+					
+				}
+					
+				if($(window).scrollTop() >= topOfOthDiv) { //scrolled past the other div?
+					$('.monika-social-share').fadeOut(); //reached the desired point -- show div
+					
+					
+				}else if ($(window).scrollTop() > 300) {
+					$('.monika-social-share').fadeIn();
+				}else{
+					$('.monika-social-share').fadeOut();
+				}
+			});
+			
+			
+			
+			
+		});
+		
+
+		
+
+	</script>
+<link rel="stylesheet" type="text/css" href="Sendgrid%20Email%20Using%20Rest%20API_files/buttons-secure.css"></head><!--/head-->
+
+<body>
+	 <!-- Google Tag Manager --> 
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-KTKS6K7');</script>
+<!-- End Google Tag Manager -->
+	<header id="header">      
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12 overflow">
+                   <div class="social-icons pull-right">
+                        <ul class="nav nav-pills">
+                            <!-- <li><a href=""><i class="fa fa-facebook"></i></a></li> -->
+                            <li><a target="_blank" href="https://twitter.com/monika"><i class="fa fa-twitter"></i></a></li>
+                            <li><a target="_blank" href="https://www.youtube.com/channel/UCnPSSSABeuZTSI6QQI8SXBA"><i class="fa fa-youtube"></i></a></li>
+                            <!-- <li><a href=""><i class="fa fa-google-plus"></i></a></li>
+                            <li><a href=""><i class="fa fa-dribbble"></i></a></li>
+                            <li><a href=""><i class="fa fa-linkedin"></i></a></li> -->
+                        </ul>
+                    </div> 
+                </div>
+             </div>
+        </div>
+        <div class="navbar navbar-inverse" role="banner">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+
+                    <a class="navbar-brand" href="https://www.monika.com/">
+						<img class="hidden-xs" style="margin-top: -35px;" src="Sendgrid%20Email%20Using%20Rest%20API_files/logo.png" alt="logo">
+						<img class="visible-xs" src="Sendgrid%20Email%20Using%20Rest%20API_files/monika_Logo.png" alt="logo">
+                    	<h1></h1>
+                    </a>
+                    
+                </div>
+                <div class="collapse navbar-collapse">
+                     <ul class="nav navbar-nav navbar-right">
+                       
+                        <li class="dropdown"><a href="#">Services <i class="fa fa-angle-down"></i></a>
+                            <ul role="menu" class="sub-menu">
+                               
+                                <li><a href="http://monika.com/Web-Development">Web Development</a></li>
+                                <li><a href="http://monika.com/Android-Development">Android Development</a></li>
+                                <li><a href="http://monika.com/Digital-Marketing">Digital Marketing</a></li>
+                                <li><a href="http://monika.com/SEO">SEO</a></li>
+                                <li><a href="http://monika.com/Email-Marketing">Email Marketing</a></li>
+                                <li><a href="http://monika.com/Payment">Payment Integrations</a></li>
+                                <li><a href="http://monika.com/Cloud-Hosting">Cloud Hosting</a></li>
+                            </ul>
+                        </li> 
+                                              
+                        <li><a href="http://monika.com/about-us">About-Us</a></li>
+                        <li><a href="http://monika.com/contact-us">Contact-Us</a></li>
+                        <li><a href="http://monika.com/blog">Blog</a></li>
+                    </ul>
+                </div>
+                <!-- <div class="search">
+                    <form role="form">
+                        <i class="fa fa-search"></i>
+                        <div class="field-toggle">
+                            <input type="text" class="search-form" autocomplete="off" placeholder="Search">
+                        </div>
+                    </form>
+                </div> -->
+            </div>
+        </div>
+    </header>
+    <!--/#header-->
+
+
+    <!--/#page-breadcrumb-->
+	
+	
+	<div class="row post-fixed-div monika-social-share" style="background-color: rgb(255, 255, 255); display: block;">
+		<div class="col-md-4 visible-lg" style="padding-top: 0.5%;padding-left: 5%;">
+				<div class="row" style="cusor: pointer;">
+					<div class="col-md-2">
+						<img class="img-responsive" style="float:right;" src="Sendgrid%20Email%20Using%20Rest%20API_files/monika-left-icon.png" alt="monika-left-icon">
+					</div>
+					<div class="col-md-10">
+						<a href="http://localhost/monika/blog/2022/02/onesignal-rest-api-push-notification"><p class="monika-previous-post">ONESIGNAL PUSH API</p></a>
+					</div>
+				</div>
+		</div>
+		<div class="col-md-4 visible-lg" style="padding-left: 5%">
+				<script type="text/javascript">
+function PopupCenterDual(url, title, w, h) {
+// Fixes dual-screen position Most browsers Firefox
+var dualScreenLeft = window.screenLeft != undefined ? window.screenLeft : screen.left;
+var dualScreenTop = window.screenTop != undefined ? window.screenTop : screen.top;
+width = window.innerWidth ? window.innerWidth : document.documentElement.clientWidth ? document.documentElement.clientWidth : screen.width;
+height = window.innerHeight ? window.innerHeight : document.documentElement.clientHeight ? document.documentElement.clientHeight : screen.height;
+
+var left = ((width / 2) - (w / 2)) + dualScreenLeft;
+var top = ((height / 2) - (h / 2)) + dualScreenTop;
+var newWindow = window.open(url, title, 'scrollbars=yes, width=' + w + ', height=' + h + ', top=' + top + ', left=' + left);
+
+// Puts focus on the newWindow
+if (window.focus) {
+newWindow.focus();
+}
+}
+</script>
+
+<div class="sticky-container ">
+				<ul class="sticky" style="display: inline-flex;">
+					<li>
+						
+						<a onclick="PopupCenterDual('http://www.facebook.com/sharer.php?u=http://localhost/monika/blog/2022/02/sendgrid-send-emails-using-rest-api.php','monika','503','503'); ">
+						<img src="Sendgrid%20Email%20Using%20Rest%20API_files/monika-fb.png" width="32" height="32">
+					   </a>
+					</li>
+					<li>
+						
+						<a onclick="PopupCenterDual('https://twitter.com/share?url=http://localhost/monika/blog/2022/02/sendgrid-send-emails-using-rest-api.php&amp;text=We%20At%20monika&amp;hashtags=','monika','503','503'); ">
+						<img src="Sendgrid%20Email%20Using%20Rest%20API_files/monika-twitter.png" width="32" height="32">
+					   </a>
+					</li>
+					<li>
+						
+						<a onclick="PopupCenterDual('http://www.linkedin.com/shareArticle?mini=true&amp;url=http://localhost/monika/blog/2022/02/sendgrid-send-emails-using-rest-api.php','monika','503','503'); ">
+						<img src="Sendgrid%20Email%20Using%20Rest%20API_files/monika-linkedin.png" width="32" height="32">
+					   </a>
+					</li>
+					<li>
+					   
+						<a onclick="PopupCenterDual('https://api.whatsapp.com/send?text=http://localhost/monika/blog/2022/02/sendgrid-send-emails-using-rest-api.php%20 #monika','monika','503','503'); ">
+						<img src="Sendgrid%20Email%20Using%20Rest%20API_files/monika-whatsapp.png" width="32" height="32">
+					   </a>
+					</li>
+					<li>
+					   
+						<a onclick="PopupCenterDual('https://www.google.com/bookmarks/mark?op=edit&amp;bkmk=http://localhost/monika/blog/2022/02/sendgrid-send-emails-using-rest-api.php&amp;title=&amp;annotation=monika&amp;labels=monika','monika','503','503'); ">
+						<img src="Sendgrid%20Email%20Using%20Rest%20API_files/monika-plus.png" width="32" height="32">
+					   </a>
+					</li>
+					<li>
+						<a onclick="PopupCenterDual('https://pinterest.com/pin/create/button/?url=http://localhost/monika/blog/2022/02/sendgrid-send-emails-using-rest-api.php&amp;media=monika&amp;description=','monika','503','503'); ">
+						<img src="Sendgrid%20Email%20Using%20Rest%20API_files/monika-pinterest.png" width="32" height="32">
+					   </a>
+					</li>
+				</ul>
+			</div>
+
+		</div>
+		
+		
+		<!-- Extra For devices -->
+		<div style="margin-left: 33%;" class="col-md-12 visible-md visible-sm ">
+			<script type="text/javascript">
+function PopupCenterDual(url, title, w, h) {
+// Fixes dual-screen position Most browsers Firefox
+var dualScreenLeft = window.screenLeft != undefined ? window.screenLeft : screen.left;
+var dualScreenTop = window.screenTop != undefined ? window.screenTop : screen.top;
+width = window.innerWidth ? window.innerWidth : document.documentElement.clientWidth ? document.documentElement.clientWidth : screen.width;
+height = window.innerHeight ? window.innerHeight : document.documentElement.clientHeight ? document.documentElement.clientHeight : screen.height;
+
+var left = ((width / 2) - (w / 2)) + dualScreenLeft;
+var top = ((height / 2) - (h / 2)) + dualScreenTop;
+var newWindow = window.open(url, title, 'scrollbars=yes, width=' + w + ', height=' + h + ', top=' + top + ', left=' + left);
+
+// Puts focus on the newWindow
+if (window.focus) {
+newWindow.focus();
+}
+}
+</script>
+
+<div class="sticky-container ">
+				<ul class="sticky" style="display: inline-flex;">
+					<li>
+						
+						<a onclick="PopupCenterDual('http://www.facebook.com/sharer.php?u=http://localhost/monika/blog/2022/02/sendgrid-send-emails-using-rest-api.php','monika','503','503'); ">
+						<img src="Sendgrid%20Email%20Using%20Rest%20API_files/monika-fb.png" width="32" height="32">
+					   </a>
+					</li>
+					<li>
+						
+						<a onclick="PopupCenterDual('https://twitter.com/share?url=http://localhost/monika/blog/2022/02/sendgrid-send-emails-using-rest-api.php&amp;text=We%20At%20monika&amp;hashtags=','monika','503','503'); ">
+						<img src="Sendgrid%20Email%20Using%20Rest%20API_files/monika-twitter.png" width="32" height="32">
+					   </a>
+					</li>
+					<li>
+						
+						<a onclick="PopupCenterDual('http://www.linkedin.com/shareArticle?mini=true&amp;url=http://localhost/monika/blog/2022/02/sendgrid-send-emails-using-rest-api.php','monika','503','503'); ">
+						<img src="Sendgrid%20Email%20Using%20Rest%20API_files/monika-linkedin.png" width="32" height="32">
+					   </a>
+					</li>
+					<li>
+					   
+						<a onclick="PopupCenterDual('https://api.whatsapp.com/send?text=http://localhost/monika/blog/2022/02/sendgrid-send-emails-using-rest-api.php%20 #monika','monika','503','503'); ">
+						<img src="Sendgrid%20Email%20Using%20Rest%20API_files/monika-whatsapp.png" width="32" height="32">
+					   </a>
+					</li>
+					<li>
+					   
+						<a onclick="PopupCenterDual('https://www.google.com/bookmarks/mark?op=edit&amp;bkmk=http://localhost/monika/blog/2022/02/sendgrid-send-emails-using-rest-api.php&amp;title=&amp;annotation=monika&amp;labels=monika','monika','503','503'); ">
+						<img src="Sendgrid%20Email%20Using%20Rest%20API_files/monika-plus.png" width="32" height="32">
+					   </a>
+					</li>
+					<li>
+						<a onclick="PopupCenterDual('https://pinterest.com/pin/create/button/?url=http://localhost/monika/blog/2022/02/sendgrid-send-emails-using-rest-api.php&amp;media=monika&amp;description=','monika','503','503'); ">
+						<img src="Sendgrid%20Email%20Using%20Rest%20API_files/monika-pinterest.png" width="32" height="32">
+					   </a>
+					</li>
+				</ul>
+			</div>
+		</div>
+		<div class="col-md-12 visible-xs ">
+			<script type="text/javascript">
+function PopupCenterDual(url, title, w, h) {
+// Fixes dual-screen position Most browsers Firefox
+var dualScreenLeft = window.screenLeft != undefined ? window.screenLeft : screen.left;
+var dualScreenTop = window.screenTop != undefined ? window.screenTop : screen.top;
+width = window.innerWidth ? window.innerWidth : document.documentElement.clientWidth ? document.documentElement.clientWidth : screen.width;
+height = window.innerHeight ? window.innerHeight : document.documentElement.clientHeight ? document.documentElement.clientHeight : screen.height;
+
+var left = ((width / 2) - (w / 2)) + dualScreenLeft;
+var top = ((height / 2) - (h / 2)) + dualScreenTop;
+var newWindow = window.open(url, title, 'scrollbars=yes, width=' + w + ', height=' + h + ', top=' + top + ', left=' + left);
+
+// Puts focus on the newWindow
+if (window.focus) {
+newWindow.focus();
+}
+}
+</script>
+
+<div class="sticky-container ">
+				<ul class="sticky" style="display: inline-flex;">
+					<li>
+						
+						<a onclick="PopupCenterDual('http://www.facebook.com/sharer.php?u=http://localhost/monika/blog/2022/02/sendgrid-send-emails-using-rest-api.php','monika','503','503'); ">
+						<img src="Sendgrid%20Email%20Using%20Rest%20API_files/monika-fb.png" width="32" height="32">
+					   </a>
+					</li>
+					<li>
+						
+						<a onclick="PopupCenterDual('https://twitter.com/share?url=http://localhost/monika/blog/2022/02/sendgrid-send-emails-using-rest-api.php&amp;text=We%20At%20monika&amp;hashtags=','monika','503','503'); ">
+						<img src="Sendgrid%20Email%20Using%20Rest%20API_files/monika-twitter.png" width="32" height="32">
+					   </a>
+					</li>
+					<li>
+						
+						<a onclick="PopupCenterDual('http://www.linkedin.com/shareArticle?mini=true&amp;url=http://localhost/monika/blog/2022/02/sendgrid-send-emails-using-rest-api.php','monika','503','503'); ">
+						<img src="Sendgrid%20Email%20Using%20Rest%20API_files/monika-linkedin.png" width="32" height="32">
+					   </a>
+					</li>
+					<li>
+					   
+						<a onclick="PopupCenterDual('https://api.whatsapp.com/send?text=http://localhost/monika/blog/2022/02/sendgrid-send-emails-using-rest-api.php%20 #monika','monika','503','503'); ">
+						<img src="Sendgrid%20Email%20Using%20Rest%20API_files/monika-whatsapp.png" width="32" height="32">
+					   </a>
+					</li>
+					<li>
+					   
+						<a onclick="PopupCenterDual('https://www.google.com/bookmarks/mark?op=edit&amp;bkmk=http://localhost/monika/blog/2022/02/sendgrid-send-emails-using-rest-api.php&amp;title=&amp;annotation=monika&amp;labels=monika','monika','503','503'); ">
+						<img src="Sendgrid%20Email%20Using%20Rest%20API_files/monika-plus.png" width="32" height="32">
+					   </a>
+					</li>
+					<li>
+						<a onclick="PopupCenterDual('https://pinterest.com/pin/create/button/?url=http://localhost/monika/blog/2022/02/sendgrid-send-emails-using-rest-api.php&amp;media=monika&amp;description=','monika','503','503'); ">
+						<img src="Sendgrid%20Email%20Using%20Rest%20API_files/monika-pinterest.png" width="32" height="32">
+					   </a>
+					</li>
+				</ul>
+			</div>
+		</div>
+		<!-- -->
+		<div class="col-md-4 visible-lg" style="padding-top: 0.5%;padding-right: 5%;">
+			<div class="row" style="cusor: pointer;">
+					<div class="col-md-10">
+						<a href="http://localhost/monika/blog/2022/01/basic-data-tables-display"><p class="monika-next-post" style="float:right;"> DYNAMIC DATA TABLE'S</p></a>
+					</div>
+					<div class="col-md-2">
+						<img class="img-responsive" style="float:left;" src="Sendgrid%20Email%20Using%20Rest%20API_files/monika-right-icon.png" alt="monika-right-icon">
+					</div>
+					
+			</div>
+		</div>
+	</div>
+
+
+    <section id="blog-details" class="">
+        <div class="container">
+			  <div class="row">
+                <div class="col-md-12 col-sm-12">
+                    <div class="row">
+						 <div class="col-md-2 col-sm-2"></div>
+                         <div class="col-md-8 col-sm-8">
+                            <div class="single-blog blog-details two-column">
+                                <div class="post-thumb">
+									<h1 style="font-family: &quot;Lucida Grande&quot;,&quot;Lucida Sans Unicode&quot;,&quot;Lucida Sans&quot;,Geneva,Arial,sans-serif;color:#00a1f1;font-family: &quot;Lucida Grande&quot;,&quot;Lucida Sans Unicode&quot;,&quot;Lucida Sans&quot;,Geneva,Arial,sans-serif;font-weight: 700;font-style: normal;font-size: 42px;line-height: 1.04;letter-spacing: -.015em;">Send Emails Using SendGrid’s API</h1>
+									<h2 name="7b95" id="7b95" style="color: rgba(0,0,0,.54);font-family: medium-content-sans-serif-font,&quot;Lucida Grande&quot;,&quot;Lucida Sans Unicode&quot;,&quot;Lucida Sans&quot;,Geneva,Arial,sans-serif;letter-spacing: -.02em;font-weight: 300;font-style: normal;letter-spacing: 0;font-size: 28px;line-height: 1.22;letter-spacing: -.012em;" class="graf graf--h4 graf-after--h3 graf--subtitle">Easy way to send email to customers using sendgrid</h2>
+                                    <a href="#"><img src="Sendgrid%20Email%20Using%20Rest%20API_files/monika-sendgrid-email-home.png" class="img-responsive" alt="monika-sendgrid-email-home"></a>
+                                    <div class="post-overlay">
+                                        <span class="uppercase hidden-xs"><a href="#">03 <br><small>Feb</small></a></span>
+                                    </div>
+                                </div>
+								<div class=" overflow" style="padding:1%;">
+                                        <ul class="nav navbar-nav post-nav">
+                                            <li class="monika-content-p"><a href="#"><i class="fa fa-tag"></i>Sendgrid API</a></li>
+                                        </ul>
+                                </div>
+                                <div class="post-content overflow">
+									
+                                    <p name="350a" id="350a" class="monika-content-p"><span class="graf-dropCap" style="font-family: medium-content-sans-serif-font,&quot;Lucida Grande&quot;,&quot;Lucida Sans Unicode&quot;,&quot;Lucida Sans&quot;,Geneva,Arial,sans-serif;letter-spacing: -.02em;font-weight: 700;font-style: normal;letter-spacing: 0;font-size: 52px;padding-top: 6px;margin-right: 7px;letter-spacing: -.03em;line-height: .33;margin-bottom: -.08em;display: block;position: relative;float: left;">
+									E</span>mail is the most effective way to build and nurture 
+customer relationships today. Companies that think strategically about 
+email as a set of meaningful customer touchpoints—taking care to send it
+ at the right time, with the right content, and for the right 
+people—will yield a competitive advantage.</p>
+                                    <p class="monika-content-p"><strong>SendGrid’s</strong>
+ trusted platform, tools, and expert services team make it effortless 
+for developers and marketers to craft, segment, test, and successfully 
+deliver all of their email, no matter the use case: purchase 
+confirmations, password reset instructions, an upcoming sale, or a 
+nurture campaign</p>
+									<h3 name="03c0" id="03c0" class="monika-sub-heading">SENDING EMAIL'S USING SENDGRID REST API:</h3>
+									<ul class="monika-content-p" style="list-style: inherit;">
+									<li>Create an <a target="_blank" href="https://sendgrid.com/">Sendgrid Account.</a></li>
+									<li>Verify your account by activating the link mailed to your account by Sendgrid.</li>
+									<li>Login to <a target="_blank" href="https://app.sendgrid.com/">Sendgrid Dashboard.</a></li>
+									<li>Go to settings section (Left nav-panel)and click on api keys or click <a target="_blank" href="https://app.sendgrid.com/settings/api_keys">here.</a></li>
+									
+									<br>
+									<img src="Sendgrid%20Email%20Using%20Rest%20API_files/monika_sendgrid_api_details.png" class="img-responsive" alt="monika_sendgrid_api_details">
+									<br>
+									<li>Click on create API key.</li>
+									<li>Enter a API key name, permission in the pop-up window and click on create button.</li>
+									<li>Save the API Key you created to send emails using API.</li>
+									<br>
+									<img src="Sendgrid%20Email%20Using%20Rest%20API_files/monika_sendgrid_create_api.png" class="img-responsive" alt="monika_sendgrid_create_api">
+									<br>
+									<li>Below code helps to send email using REST API.</li>
+									<br>
+	<pre style="color:#000000;background:#ffffff;"><span style="color:#5f5035; background:#ffffe8; ">&lt;?php</span><span style="color:#000000; background:#ffffe8; "></span>
+<span style="color:#797997; background:#ffffe8; ">$curl</span><span style="color:#000000; background:#ffffe8; "> </span><span style="color:#808030; background:#ffffe8; ">=</span><span style="color:#000000; background:#ffffe8; "> </span><span style="color:#400000; background:#ffffe8; ">curl_init</span><span style="color:#808030; background:#ffffe8; ">(</span><span style="color:#808030; background:#ffffe8; ">)</span><span style="color:#800080; background:#ffffe8; ">;</span><span style="color:#000000; background:#ffffe8; "></span>
+<span style="color:#000000; background:#ffffe8; "></span>
+<span style="color:#400000; background:#ffffe8; ">curl_setopt_array</span><span style="color:#808030; background:#ffffe8; ">(</span><span style="color:#797997; background:#ffffe8; ">$curl</span><span style="color:#808030; background:#ffffe8; ">,</span><span style="color:#000000; background:#ffffe8; "> </span><span style="color:#800000; background:#ffffe8; font-weight:bold; ">array</span><span style="color:#808030; background:#ffffe8; ">(</span><span style="color:#000000; background:#ffffe8; "></span>
+<span style="color:#000000; background:#ffffe8; ">&nbsp;&nbsp;</span><span style="color:#7d0045; background:#ffffe8; ">CURLOPT_URL</span><span style="color:#000000; background:#ffffe8; "> </span><span style="color:#808030; background:#ffffe8; ">=</span><span style="color:#808030; background:#ffffe8; ">&gt;</span><span style="color:#000000; background:#ffffe8; "> </span><span style="color:#0000e6; background:#ffffe8; ">"https://api.sendgrid.com/v3/mail/send"</span><span style="color:#808030; background:#ffffe8; ">,</span><span style="color:#000000; background:#ffffe8; "></span>
+<span style="color:#000000; background:#ffffe8; ">&nbsp;&nbsp;</span><span style="color:#7d0045; background:#ffffe8; ">CURLOPT_RETURNTRANSFER</span><span style="color:#000000; background:#ffffe8; "> </span><span style="color:#808030; background:#ffffe8; ">=</span><span style="color:#808030; background:#ffffe8; ">&gt;</span><span style="color:#000000; background:#ffffe8; "> </span><span style="color:#0f4d75; background:#ffffe8; ">true</span><span style="color:#808030; background:#ffffe8; ">,</span><span style="color:#000000; background:#ffffe8; "></span>
+<span style="color:#000000; background:#ffffe8; ">&nbsp;&nbsp;</span><span style="color:#7d0045; background:#ffffe8; ">CURLOPT_ENCODING</span><span style="color:#000000; background:#ffffe8; "> </span><span style="color:#808030; background:#ffffe8; ">=</span><span style="color:#808030; background:#ffffe8; ">&gt;</span><span style="color:#000000; background:#ffffe8; "> </span><span style="color:#0000e6; background:#ffffe8; ">""</span><span style="color:#808030; background:#ffffe8; ">,</span><span style="color:#000000; background:#ffffe8; "></span>
+<span style="color:#000000; background:#ffffe8; ">&nbsp;&nbsp;</span><span style="color:#7d0045; background:#ffffe8; ">CURLOPT_MAXREDIRS</span><span style="color:#000000; background:#ffffe8; "> </span><span style="color:#808030; background:#ffffe8; ">=</span><span style="color:#808030; background:#ffffe8; ">&gt;</span><span style="color:#000000; background:#ffffe8; "> </span><span style="color:#008c00; background:#ffffe8; ">10</span><span style="color:#808030; background:#ffffe8; ">,</span><span style="color:#000000; background:#ffffe8; "></span>
+<span style="color:#000000; background:#ffffe8; ">&nbsp;&nbsp;</span><span style="color:#7d0045; background:#ffffe8; ">CURLOPT_TIMEOUT</span><span style="color:#000000; background:#ffffe8; "> </span><span style="color:#808030; background:#ffffe8; ">=</span><span style="color:#808030; background:#ffffe8; ">&gt;</span><span style="color:#000000; background:#ffffe8; "> </span><span style="color:#008c00; background:#ffffe8; ">30</span><span style="color:#808030; background:#ffffe8; ">,</span><span style="color:#000000; background:#ffffe8; "></span>
+<span style="color:#000000; background:#ffffe8; ">&nbsp;&nbsp;</span><span style="color:#7d0045; background:#ffffe8; ">CURLOPT_HTTP_VERSION</span><span style="color:#000000; background:#ffffe8; "> </span><span style="color:#808030; background:#ffffe8; ">=</span><span style="color:#808030; background:#ffffe8; ">&gt;</span><span style="color:#000000; background:#ffffe8; "> </span><span style="color:#7d0045; background:#ffffe8; ">CURL_HTTP_VERSION_1_1</span><span style="color:#808030; background:#ffffe8; ">,</span><span style="color:#000000; background:#ffffe8; "></span>
+<span style="color:#000000; background:#ffffe8; ">&nbsp;&nbsp;</span><span style="color:#7d0045; background:#ffffe8; ">CURLOPT_CUSTOMREQUEST</span><span style="color:#000000; background:#ffffe8; "> </span><span style="color:#808030; background:#ffffe8; ">=</span><span style="color:#808030; background:#ffffe8; ">&gt;</span><span style="color:#000000; background:#ffffe8; "> </span><span style="color:#0000e6; background:#ffffe8; ">"POST"</span><span style="color:#808030; background:#ffffe8; ">,</span><span style="color:#000000; background:#ffffe8; "></span>
+<span style="color:#000000; background:#ffffe8; ">&nbsp;&nbsp;</span><span style="color:#7d0045; background:#ffffe8; ">CURLOPT_POSTFIELDS</span><span style="color:#000000; background:#ffffe8; "> </span><span style="color:#808030; background:#ffffe8; ">=</span><span style="color:#808030; background:#ffffe8; ">&gt;</span><span style="color:#000000; background:#ffffe8; "> </span><span style="color:#0000e6; background:#ffffe8; ">"{</span><span style="color:#0f69ff; background:#ffffe8; ">\r</span><span style="color:#0f69ff; background:#ffffe8; ">\n</span><span style="color:#0000e6; background:#ffffe8; ">  </span><span style="color:#0f69ff; background:#ffffe8; ">\"</span><span style="color:#0000e6; background:#ffffe8; ">personalizations</span><span style="color:#0f69ff; background:#ffffe8; ">\"</span><span style="color:#0000e6; background:#ffffe8; ">: [</span><span style="color:#0f69ff; background:#ffffe8; ">\r</span><span style="color:#0f69ff; background:#ffffe8; ">\n</span><span style="color:#0000e6; background:#ffffe8; ">   </span>
+<span style="color:#0000e6; background:#ffffe8; ">&nbsp;{</span><span style="color:#0f69ff; background:#ffffe8; ">\r</span><span style="color:#0f69ff; background:#ffffe8; ">\n</span><span style="color:#0000e6; background:#ffffe8; ">      </span><span style="color:#0f69ff; background:#ffffe8; ">\"</span><span style="color:#0000e6; background:#ffffe8; ">to</span><span style="color:#0f69ff; background:#ffffe8; ">\"</span><span style="color:#0000e6; background:#ffffe8; ">: [</span><span style="color:#0f69ff; background:#ffffe8; ">\r</span><span style="color:#0f69ff; background:#ffffe8; ">\n</span><span style="color:#0000e6; background:#ffffe8; ">        {</span><span style="color:#0f69ff; background:#ffffe8; ">\r</span><span style="color:#0f69ff; background:#ffffe8; ">\n</span><span style="color:#0000e6; background:#ffffe8; ">          </span><span style="color:#0f69ff; background:#ffffe8; ">\"</span><span style="color:#0000e6; background:#ffffe8; ">email</span><span style="color:#0f69ff; background:#ffffe8; ">\"</span><span style="color:#0000e6; background:#ffffe8; ">: </span><span style="color:#0f69ff; background:#ffffe8; ">\"</span><span style="color:#0000e6; background:#ffffe8; ">your_to@email.com</span><span style="color:#0f69ff; background:#ffffe8; ">\"</span><span style="color:#0f69ff; background:#ffffe8; ">\r</span><span style="color:#0f69ff; background:#ffffe8; ">\n</span><span style="color:#0000e6; background:#ffffe8; ">       </span>
+<span style="color:#0000e6; background:#ffffe8; ">&nbsp;}</span><span style="color:#0f69ff; background:#ffffe8; ">\r</span><span style="color:#0f69ff; background:#ffffe8; ">\n</span><span style="color:#0000e6; background:#ffffe8; ">      ],</span><span style="color:#0f69ff; background:#ffffe8; ">\r</span><span style="color:#0f69ff; background:#ffffe8; ">\n</span><span style="color:#0000e6; background:#ffffe8; ">      </span><span style="color:#0f69ff; background:#ffffe8; ">\"</span><span style="color:#0000e6; background:#ffffe8; ">subject</span><span style="color:#0f69ff; background:#ffffe8; ">\"</span><span style="color:#0000e6; background:#ffffe8; ">: </span><span style="color:#0f69ff; background:#ffffe8; ">\"</span><span style="color:#0000e6; background:#ffffe8; ">Welcome to monika!</span><span style="color:#0f69ff; background:#ffffe8; ">\"</span><span style="color:#0f69ff; background:#ffffe8; ">\r</span><span style="color:#0f69ff; background:#ffffe8; ">\n</span><span style="color:#0000e6; background:#ffffe8; ">    }</span><span style="color:#0f69ff; background:#ffffe8; ">\r</span><span style="color:#0f69ff; background:#ffffe8; ">\n</span><span style="color:#0000e6; background:#ffffe8; ">  ],</span><span style="color:#0f69ff; background:#ffffe8; ">\r</span><span style="color:#0f69ff; background:#ffffe8; ">\n</span><span style="color:#0000e6; background:#ffffe8; ">  </span>
+<span style="color:#0f69ff; background:#ffffe8; ">\"</span><span style="color:#0000e6; background:#ffffe8; ">from</span><span style="color:#0f69ff; background:#ffffe8; ">\"</span><span style="color:#0000e6; background:#ffffe8; ">: {</span><span style="color:#0f69ff; background:#ffffe8; ">\r</span><span style="color:#0f69ff; background:#ffffe8; ">\n</span><span style="color:#0000e6; background:#ffffe8; ">    </span><span style="color:#0f69ff; background:#ffffe8; ">\"</span><span style="color:#0000e6; background:#ffffe8; ">email</span><span style="color:#0f69ff; background:#ffffe8; ">\"</span><span style="color:#0000e6; background:#ffffe8; ">: </span><span style="color:#0f69ff; background:#ffffe8; ">\"</span><span style="color:#0000e6; background:#ffffe8; ">your_from@email.com</span><span style="color:#0f69ff; background:#ffffe8; ">\"</span><span style="color:#0f69ff; background:#ffffe8; ">\r</span><span style="color:#0f69ff; background:#ffffe8; ">\n</span><span style="color:#0000e6; background:#ffffe8; ">  },</span><span style="color:#0f69ff; background:#ffffe8; ">\r</span><span style="color:#0f69ff; background:#ffffe8; ">\n</span><span style="color:#0000e6; background:#ffffe8; ">  </span><span style="color:#0f69ff; background:#ffffe8; ">\"</span><span style="color:#0000e6; background:#ffffe8; ">content</span><span style="color:#0f69ff; background:#ffffe8; ">\"</span><span style="color:#0000e6; background:#ffffe8; ">: [</span><span style="color:#0f69ff; background:#ffffe8; ">\r</span><span style="color:#0f69ff; background:#ffffe8; ">\n</span><span style="color:#0000e6; background:#ffffe8; ">    </span>
+<span style="color:#0000e6; background:#ffffe8; ">{</span><span style="color:#0f69ff; background:#ffffe8; ">\r</span><span style="color:#0f69ff; background:#ffffe8; ">\n</span><span style="color:#0000e6; background:#ffffe8; ">      </span><span style="color:#0f69ff; background:#ffffe8; ">\"</span><span style="color:#0000e6; background:#ffffe8; ">type</span><span style="color:#0f69ff; background:#ffffe8; ">\"</span><span style="color:#0000e6; background:#ffffe8; ">: </span><span style="color:#0f69ff; background:#ffffe8; ">\"</span><span style="color:#0000e6; background:#ffffe8; ">text/plain</span><span style="color:#0f69ff; background:#ffffe8; ">\"</span><span style="color:#0000e6; background:#ffffe8; ">,</span><span style="color:#0f69ff; background:#ffffe8; ">\r</span><span style="color:#0f69ff; background:#ffffe8; ">\n</span><span style="color:#0000e6; background:#ffffe8; ">      </span><span style="color:#0f69ff; background:#ffffe8; ">\"</span><span style="color:#0000e6; background:#ffffe8; ">value</span><span style="color:#0f69ff; background:#ffffe8; ">\"</span><span style="color:#0000e6; background:#ffffe8; ">: </span><span style="color:#0f69ff; background:#ffffe8; ">\"</span><span style="color:#0000e6; background:#ffffe8; ">Hello, World!</span><span style="color:#0f69ff; background:#ffffe8; ">\"</span><span style="color:#0f69ff; background:#ffffe8; ">\r</span><span style="color:#0f69ff; background:#ffffe8; ">\n</span><span style="color:#0000e6; background:#ffffe8; ">    }</span><span style="color:#0f69ff; background:#ffffe8; ">\r</span><span style="color:#0f69ff; background:#ffffe8; ">\n</span><span style="color:#0000e6; background:#ffffe8; "> </span>
+<span style="color:#0000e6; background:#ffffe8; ">&nbsp;]</span><span style="color:#0f69ff; background:#ffffe8; ">\r</span><span style="color:#0f69ff; background:#ffffe8; ">\n</span><span style="color:#0000e6; background:#ffffe8; ">}"</span><span style="color:#808030; background:#ffffe8; ">,</span><span style="color:#000000; background:#ffffe8; "></span>
+<span style="color:#000000; background:#ffffe8; ">&nbsp;&nbsp;</span><span style="color:#7d0045; background:#ffffe8; ">CURLOPT_HTTPHEADER</span><span style="color:#000000; background:#ffffe8; "> </span><span style="color:#808030; background:#ffffe8; ">=</span><span style="color:#808030; background:#ffffe8; ">&gt;</span><span style="color:#000000; background:#ffffe8; "> </span><span style="color:#800000; background:#ffffe8; font-weight:bold; ">array</span><span style="color:#808030; background:#ffffe8; ">(</span><span style="color:#000000; background:#ffffe8; "></span>
+<span style="color:#000000; background:#ffffe8; ">&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color:#0000e6; background:#ffffe8; ">"authorization: Bearer YOUR_API_KEY"</span><span style="color:#808030; background:#ffffe8; ">,</span><span style="color:#000000; background:#ffffe8; "></span>
+<span style="color:#000000; background:#ffffe8; ">&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color:#0000e6; background:#ffffe8; ">"cache-control: no-cache"</span><span style="color:#808030; background:#ffffe8; ">,</span><span style="color:#000000; background:#ffffe8; "></span>
+<span style="color:#000000; background:#ffffe8; ">&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color:#0000e6; background:#ffffe8; ">"content-type: application/json"</span><span style="color:#000000; background:#ffffe8; "></span>
+<span style="color:#000000; background:#ffffe8; ">&nbsp;&nbsp;</span><span style="color:#808030; background:#ffffe8; ">)</span><span style="color:#808030; background:#ffffe8; ">,</span><span style="color:#000000; background:#ffffe8; "></span>
+<span style="color:#808030; background:#ffffe8; ">)</span><span style="color:#808030; background:#ffffe8; ">)</span><span style="color:#800080; background:#ffffe8; ">;</span><span style="color:#000000; background:#ffffe8; "></span>
+<span style="color:#000000; background:#ffffe8; "></span>
+<span style="color:#797997; background:#ffffe8; ">$response</span><span style="color:#000000; background:#ffffe8; "> </span><span style="color:#808030; background:#ffffe8; ">=</span><span style="color:#000000; background:#ffffe8; "> </span><span style="color:#400000; background:#ffffe8; ">curl_exec</span><span style="color:#808030; background:#ffffe8; ">(</span><span style="color:#797997; background:#ffffe8; ">$curl</span><span style="color:#808030; background:#ffffe8; ">)</span><span style="color:#800080; background:#ffffe8; ">;</span><span style="color:#000000; background:#ffffe8; "></span>
+<span style="color:#797997; background:#ffffe8; ">$err</span><span style="color:#000000; background:#ffffe8; "> </span><span style="color:#808030; background:#ffffe8; ">=</span><span style="color:#000000; background:#ffffe8; "> </span><span style="color:#400000; background:#ffffe8; ">curl_error</span><span style="color:#808030; background:#ffffe8; ">(</span><span style="color:#797997; background:#ffffe8; ">$curl</span><span style="color:#808030; background:#ffffe8; ">)</span><span style="color:#800080; background:#ffffe8; ">;</span><span style="color:#000000; background:#ffffe8; "></span>
+<span style="color:#000000; background:#ffffe8; "></span>
+<span style="color:#400000; background:#ffffe8; ">curl_close</span><span style="color:#808030; background:#ffffe8; ">(</span><span style="color:#797997; background:#ffffe8; ">$curl</span><span style="color:#808030; background:#ffffe8; ">)</span><span style="color:#800080; background:#ffffe8; ">;</span><span style="color:#000000; background:#ffffe8; "></span>
+<span style="color:#000000; background:#ffffe8; "></span>
+<span style="color:#800000; background:#ffffe8; font-weight:bold; ">if</span><span style="color:#000000; background:#ffffe8; "> </span><span style="color:#808030; background:#ffffe8; ">(</span><span style="color:#797997; background:#ffffe8; ">$err</span><span style="color:#808030; background:#ffffe8; ">)</span><span style="color:#000000; background:#ffffe8; "> </span><span style="color:#800080; background:#ffffe8; ">{</span><span style="color:#000000; background:#ffffe8; "></span>
+<span style="color:#000000; background:#ffffe8; ">&nbsp;&nbsp;</span><span style="color:#800000; background:#ffffe8; font-weight:bold; ">echo</span><span style="color:#000000; background:#ffffe8; "> </span><span style="color:#0000e6; background:#ffffe8; ">"cURL Error #:"</span><span style="color:#000000; background:#ffffe8; "> </span><span style="color:#808030; background:#ffffe8; ">.</span><span style="color:#000000; background:#ffffe8; "> </span><span style="color:#797997; background:#ffffe8; ">$err</span><span style="color:#800080; background:#ffffe8; ">;</span><span style="color:#000000; background:#ffffe8; "></span>
+<span style="color:#800080; background:#ffffe8; ">}</span><span style="color:#000000; background:#ffffe8; "> </span><span style="color:#800000; background:#ffffe8; font-weight:bold; ">else</span><span style="color:#000000; background:#ffffe8; "> </span><span style="color:#800080; background:#ffffe8; ">{</span><span style="color:#000000; background:#ffffe8; "></span>
+<span style="color:#000000; background:#ffffe8; ">&nbsp;&nbsp;</span><span style="color:#800000; background:#ffffe8; font-weight:bold; ">echo</span><span style="color:#000000; background:#ffffe8; "> </span><span style="color:#797997; background:#ffffe8; ">$response</span><span style="color:#800080; background:#ffffe8; ">;</span><span style="color:#000000; background:#ffffe8; "></span>
+<span style="color:#800080; background:#ffffe8; ">}</span><span style="color:#000000; background:#ffffe8; "></span>
+<span style="color:#5f5035; background:#ffffe8; ">?&gt;</span>
+</pre>
+									<li id="stop-monika-video-play">Now replace YOUR_API_KEY, your_from@email.com and your_to@email.com in the above code.</li>
+									<li>Now paste the code on your (working Host server)website and run it.</li>
+									<li>Cross check by opening the email inbox.</li>
+									<br>
+									<img src="Sendgrid%20Email%20Using%20Rest%20API_files/monika_sendgrid_result.png" class="img-responsive" alt="monika_sendgrid_result">
+									
+										<style>
+									
+									div.laptop-wrapper {
+										position: relative;
+										padding-top: 25px;
+										padding-bottom: 67.5%;
+										height: 0;
+									}
+									div.laptop-wrapper iframe {
+										box-sizing: border-box;
+										background: url(https://i.stack.imgur.com/zZNgk.png) center center no-repeat;
+										background-size: contain;
+										padding: 11.9% 15.5% 14.8%;
+										position: absolute;
+										top: 0;
+										left: 0;
+										width: 100%;
+										height: 100%;
+									}
+
+									</style>  
+									 
+
+									
+									
+									
+								
+									<div class="sidebar-item tag-cloud">
+									<h3 style="text-align:center" class="monika-content-p">Frequent Viewed Posts</h3>
+									
+			<div class="row">
+                   <div class="col-md-6  wow fadeInLeft animated animated animated animated" data-wow-duration="1000ms" data-wow-delay="300ms" style="visibility: visible; animation-duration: 1000ms; animation-delay: 300ms; animation-name: fadeInLeft;">
+				   			<div class="single-blog timeline">
+								<div class="single-blog-wrapper">
+									<div class="post-thumb">
+										<img src="Sendgrid%20Email%20Using%20Rest%20API_files/techawa-one-signal-push-notification-home.png" class="img-responsive" alt="monika-domain-list">
+										<div class="post-overlay">
+										<span class="uppercase"><a href="#">10<br><small>Feb</small></a></span>
+									</div>
+									</div>
+								</div>
+								<div class="post-content overflow">
+									<h2 class="post-title bold"><strong><a href="http://localhost/monika/blog/2022/02/onesignal-push-notification">OneSignal Push Notification Integration</a></strong></h2>
+									<h3 class="post-author"><a href="#">Posted by monika</a></h3>
+									<p class="monika-content-p">OneSignal provides a simple 
+interface to push notifications, letting content creators focus on 
+quality user engagement instead of complex implementation. Push 
+notifications are ...</p>
+									<a href="http://localhost/monika/blog/2022/02/onesignal-push-notification" style="text-align:center !important" class="">View More</a>
+									<div class="post-bottom overflow">
+										<span class="post-date pull-left">February 10, 2018</span>
+										<span class="comments-number pull-right"><a href="#"><i class="fa fa-tag"></i> OneSignal API</a></span>
+									</div>
+								</div>
+							</div>
+                        </div>
+                          <div class="col-md-6  wow fadeInLeft animated animated animated animated" data-wow-duration="1000ms" data-wow-delay="300ms" style="visibility: visible; animation-duration: 1000ms; animation-delay: 300ms; animation-name: fadeInLeft;">
+								<div class="single-blog timeline">
+										<div class="single-blog-wrapper">
+											<div class="post-thumb">
+												<img src="Sendgrid%20Email%20Using%20Rest%20API_files/techawa-one-signal-push-notification-home.png" class="img-responsive" alt="monika-domain-list">
+												<div class="post-overlay">
+												<span class="uppercase"><a href="#">05<br><small>Feb</small></a></span>
+											</div>
+											</div>
+										</div>
+										<div class="post-content overflow">
+											<h2 class="post-title bold"><strong><a href="http://localhost/monika/blog/2022/02/onesignal-rest-api-push-notification">OneSignal Push Notification Using API</a></strong></h2>
+											<h3 class="post-author"><a href="#">Posted by monika</a></h3>
+											<p class="monika-content-p">OneSignal is a high volume and 
+reliable push notification service for websites and mobile applications.
+ We support all major native and mobile platforms by providing dedicated
+ ...</p>
+											<a href="http://localhost/monika/blog/2022/02/onesignal-rest-api-push-notification" style="text-align:center !important" class="">View More</a>
+											<div class="post-bottom overflow">
+												<span class="post-date pull-left">February 05, 2018</span>
+												<span class="comments-number pull-right"><a href="#"><i class="fa fa-tag"></i> OneSignal API</a></span>
+											</div>
+										</div>
+									</div>
+                        </div>
+                           <div class="col-md-6 padding-top wow fadeInLeft animated animated animated" data-wow-duration="1000ms" data-wow-delay="300ms" style="visibility: hidden; animation-duration: 1000ms; animation-delay: 300ms; animation-name: none;">
+								<div class="single-blog timeline">
+										<div class="single-blog-wrapper">
+											<div class="post-thumb">
+												<img src="Sendgrid%20Email%20Using%20Rest%20API_files/monika-data-tables-home.png" class="img-responsive" alt="monika-data-tables-home">
+												<div class="post-overlay">
+												<span class="uppercase"><a href="#">28 <br><small>Jan</small></a></span>
+											</div>
+											</div>
+										</div>
+										<div class="post-content overflow">
+											<h2 class="post-title bold"><strong><a href="http://localhost/monika/blog/2022/01/basic-data-tables-display">Website Tables Integration</a></strong></h2>
+											<h3 class="post-author"><a href="#">Posted by monika</a></h3>
+											<p class="monika-content-p">We use tables all time to 
+represent data sets. Basic HTML tables allow to arrange data like text, 
+images, links and other tables. So here we will learn how to easily add 
+search, pagination and ...</p>
+											<a href="http://localhost/monika/blog/2022/01/basic-data-tables-display" style="text-align:center !important" class="">View More</a>
+											<div class="post-bottom overflow">
+												<span class="post-date pull-left">January 28, 2018</span>
+												<span class="comments-number pull-right"><a href="#"><i class="fa fa-tag"></i> Bootstrap</a></span>
+											</div>
+										</div>
+									</div>
+                        </div>
+						 <div class="col-md-6  padding-top wow fadeInLeft animated animated animated" data-wow-duration="1000ms" data-wow-delay="300ms" style="visibility: hidden; animation-duration: 1000ms; animation-delay: 300ms; animation-name: none;">
+								<div class="single-blog timeline">
+												<div class="single-blog-wrapper">
+													<div class="post-thumb">
+														<img src="Sendgrid%20Email%20Using%20Rest%20API_files/monika-aws-ses-home.png" class="img-responsive" alt="monika-aws-ses-home">
+														<div class="post-overlay">
+														<span class="uppercase"><a href="#">25 <br><small>Jan</small></a></span>
+													</div>
+													</div>
+												</div>
+												<div class="post-content overflow">
+													<h2 class="post-title bold"><strong><a href="http://localhost/monika/blog/2022/01/aws-send-emails">How To Send Emails Using AWS SES</a></strong></h2>
+													<h3 class="post-author"><a href="#">Posted by monika</a></h3>
+													<p class="monika-content-p">SES is a cloud-based email 
+sending service designed to help digital marketers and application 
+developers send marketing, notification, and transactional emails. It is
+ a reliable ...</p>
+													<a href="http://localhost/monika/blog/2022/01/aws-send-emails" style="text-align:center !important" class="">View More</a>
+													<div class="post-bottom overflow">
+														<span class="post-date pull-left">January 25, 2018</span>
+														<span class="comments-number pull-right"><a href="#"><i class="fa fa-tag"></i> AWS</a></span>
+													</div>
+												</div>
+											</div>
+                        </div>
+						
+            </div>
+	
+	
+									</div>
+									
+								
+
+
+                                   
+                                </ul></div>
+                            </div>
+                        </div>
+                   
+						<div class="col-md-2 col-sm-2"></div>
+				   </div>
+                 </div>
+				 
+             </div>
+        </div>
+    </section>
+    <!--/#blog-->
+
+     <footer id="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12 text-center bottom-separator">
+                    <img src="Sendgrid%20Email%20Using%20Rest%20API_files/under.png" class="img-responsive inline" alt="">
+                </div>
+        <div class="col-md-1">
+        </div>
+          <div class="col-md-2">
+             <div class="testimonial bottom">
+                        <h2>Our Services</h2>
+                        <div class="media">
+                           <a href="https://www.monika.com/Web-Development" style="color:#000 "><img src="Sendgrid%20Email%20Using%20Rest%20API_files/web.png" alt=""> WEB DEVELOPMENT</a>
+                        </div>
+            <div class="media">
+                           <a href="https://www.monika.com/Android-Development" style="color:#000 "><img src="Sendgrid%20Email%20Using%20Rest%20API_files/android.png" alt=""> ANDROID DESIGN</a>
+                        </div>
+            <div class="media">
+                           <a href="https://www.monika.com/Digital-Marketing" style="color:#000 "><img src="Sendgrid%20Email%20Using%20Rest%20API_files/digital.png" alt=""> DIGITAL MARKETING</a>
+                        </div>
+            <div class="media">
+                           <a href="https://www.monika.com/SEO" style="color:#000 "><img src="Sendgrid%20Email%20Using%20Rest%20API_files/seo.png" alt=""> SEO</a>
+                        </div>
+            
+                           
+            </div>
+          
+        </div>
+          <div class="col-md-2">
+             <div class="testimonial bottom">
+                        <h2> </h2>
+            <div class="media">
+                          
+                        </div>
+            <div class="media">
+                           <a href="https://www.monika.com/Email-Marketing" style="color:#000 "><img src="Sendgrid%20Email%20Using%20Rest%20API_files/email.png" alt=""> EMAIL MARKETING</a>
+                        </div>
+                        <div class="media">
+                           <a href="https://www.monika.com/Payment" style="color:#000 "><img src="Sendgrid%20Email%20Using%20Rest%20API_files/payment.png" alt=""> PAYMENT GATEWAY</a>
+                        </div>
+            <div class="media">
+                           <a href="https://www.monika.com/Cloud-Hosting" style="color:#000 "><img src="Sendgrid%20Email%20Using%20Rest%20API_files/cloud.png" alt=""> CLOUD HOSTING</a>
+                        </div>
+            
+                           
+            </div>
+          
+        </div>
+        <div class="col-md-2">
+          <div class="row">
+                           <h2></h2>
+                    </div>
+          <img class="img-responsive" src="Sendgrid%20Email%20Using%20Rest%20API_files/monika-footer.png" alt="logo">
+        </div>
+        <div class="col-md-2" style="text-align:center;">
+             <div class="testimonial bottom">
+                        
+            <h2>GET IN TOUCH</h2>
+            <div class="media">
+                           <a href="#" style="color:#000 "> BLOG</a>
+                        </div>
+                        <div class="media">
+                           <a href="https://www.monika.com/contact-us" style="color:#000 "> CONTACT-US</a>
+                        </div>
+            <div class="media">
+                           <a href="https://www.monika.com/about-us" style="color:#000 "> ABOUT-US</a>
+                        </div>
+            <div class="media">
+                           <a href="#" style="color:#000 "> DONATE-US</a>
+                        </div>
+            
+                           
+            </div>
+          
+        </div>
+        <div class="col-md-2" style="text-align:center;">
+             <div class="testimonial bottom">
+                        <h2> STAY WITH US</h2>
+                        <!-- <div class="media">
+                           <a target="_blank" href="#" style="color:#000 "> FACEBOOK</a>
+                        </div> -->
+                        <div class="media">
+                           <a target="_blank" href="https://twitter.com/monika" style="color:#000 "> TWITTER</a>
+                        </div>
+                        <div class="media">
+                           <a target="_blank" href="https://www.youtube.com/channel/UCnPSSSABeuZTSI6QQI8SXBA" style="color:#000 "> YOUTUBE</a>
+                        </div>
+                        <!-- <div class="media">
+                           <a href="#" style="color:#000 "> INSTAGRAM</a>
+                        </div> -->
+            
+                           
+            </div>
+          
+        </div>
+          
+        <div class="col-md-1">
+        </div>
+        
+                
+                <div class="col-sm-12">
+                    <div class="copyright-text text-center">
+            <p>© <a target="_blank" style="color:#00a1f1" href="http://www.monika.com/">monika</a> 2023. All Rights Reserved.</p>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <!--/#footer-->
+
+
+    <script type="text/javascript" src="Sendgrid%20Email%20Using%20Rest%20API_files/jquery.js"></script>
+    <script type="text/javascript" src="Sendgrid%20Email%20Using%20Rest%20API_files/bootstrap.min.js"></script>
+    <script type="text/javascript" src="Sendgrid%20Email%20Using%20Rest%20API_files/lightbox.min.js"></script>
+    <script type="text/javascript" src="Sendgrid%20Email%20Using%20Rest%20API_files/wow.min.js"></script>
+    <script type="text/javascript" src="Sendgrid%20Email%20Using%20Rest%20API_files/main.js"></script>   
+
+
+<div id="lightboxOverlay" class="lightboxOverlay" style="display: none;"></div><div id="lightbox" class="lightbox" style="display: none;"><div class="lb-outerContainer"><div class="lb-container"><img class="lb-image" src=""><div class="lb-nav"><a class="lb-prev" href=""></a><a class="lb-next" href=""></a></div><div class="lb-loader"><a class="lb-cancel"></a></div></div></div><div class="lb-dataContainer"><div class="lb-data"><div class="lb-details"><span class="lb-caption"></span><span class="lb-number"></span></div><div class="lb-closeContainer"><a class="lb-close"></a></div></div></div></div><div id="stcpDiv" style="position: absolute; top: -1999px; left: -1988px;">ShareThis Copy and Paste</div><div id="stwrapper" class="stwrapper stwrapper5x stwrapper5x" style="display: none;"><iframe allowtransparency="true" id="stLframe" class="stLframe" name="stLframe" scrolling="no" src="Sendgrid%20Email%20Using%20Rest%20API_files/index.html" frameborder="0"></iframe></div><div id="stOverlay" onclick="javascript:stWidget.closeWidget();"></div></body></html>

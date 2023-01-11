@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>Amazon EC2 Connection | monika</title>
+    <link href="Amazon%20EC2%20Connection_files/bootstrap.min.css" rel="stylesheet">
+    <link href="Amazon%20EC2%20Connection_files/font-awesome.min.css" rel="stylesheet">
+    <link href="Amazon%20EC2%20Connection_files/lightbox.css" rel="stylesheet"> 
+    <link href="Amazon%20EC2%20Connection_files/animate.min.css" rel="stylesheet"> 
+	<link href="Amazon%20EC2%20Connection_files/main.css" rel="stylesheet">
+	<link href="Amazon%20EC2%20Connection_files/responsive.css" rel="stylesheet">
+
+    <!--[if lt IE 9]>
+	    <script src="js/html5shiv.js"></script>
+	    <script src="js/respond.min.js"></script>
+    <![endif]-->       
+    <link rel="shortcut icon" href="http://localhost/monika/images/ico/favicon.ico">
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="http://localhost/monika/images/ico/apple-touch-icon-144-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="http://localhost/monika/images/ico/apple-touch-icon-114-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="http://localhost/monika/images/ico/apple-touch-icon-72-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" href="http://localhost/monika/images/ico/apple-touch-icon-57-precomposed.png">
+    <script async="" src="Amazon%20EC2%20Connection_files/panorama.js"></script><iframe id="pxcelframe" title="pxcelframe" style="display: none;" src="//t.sharethis.com/a/t_.htm?ver=1.1109.23349&amp;cid=c010#rnd=1673417679853&amp;cid=c010&amp;dmn=localhost&amp;gdpr_domain=false&amp;tt=t.dhj&amp;dhjLcy=1058&amp;lbl=pxcel&amp;flbl=pxcel&amp;ll=d&amp;ver=1.1109.23349&amp;ell=d&amp;cck=__stid&amp;pn=%2Fmonika%2Fblog%2F2022%2F01%2Faws-connecting-to-ec2-instance.php&amp;qs=na&amp;rdn=localhost&amp;rpn=%2Fmonika%2Fblog%2F2022%2F01%2Faws-connecting-to-ec2-instance.php&amp;rqs=na&amp;cc=IN&amp;cont=AS&amp;ipaddr="></iframe><script type="text/javascript" async="" src="Amazon%20EC2%20Connection_files/analytics.js"></script><script async="" src="Amazon%20EC2%20Connection_files/gtm.js"></script><script type="text/javascript" id="async-buttons" src="Amazon%20EC2%20Connection_files/async-buttons.js"></script><script type="text/javascript">var switchTo5x=true;</script>
+    <script type="text/javascript" src="Amazon%20EC2%20Connection_files/buttons.js"></script>
+    <script type="text/javascript">stLight.options({publisher: "7e8eb33b-fbe0-4915-9b93-09490e3d10df", doNotHash: false, doNotCopy: false, hashAddressBar: false});</script>
+	<style>
+	.monika-content-p, .monika-previous-post, .monika-next-post{
+		font-family: Georgia,Cambria,"Times New Roman",Times,serif;
+		letter-spacing: .003rem !important;
+		font-weight: 400;
+		font-style: normal;
+		font-size: 21px;
+		line-height: 1.58;
+		color: rgba(12, 12, 12, 0.7);
+	}
+	.monika-sub-heading{
+		font-style: normal;
+		font-size: 34px;
+		margin-left: -2.13px;
+		line-height: 1.15;
+		letter-spacing: -.015em;
+		font-weight: 600;
+		font-family: "Lucida Grande","Lucida Sans Unicode","Lucida Sans",Geneva,Arial,sans-serif;
+		color: rgba(0, 0, 0, 0.7);
+	}
+	.post-nav li a i {
+		color: #00a1f1 !important;
+	}
+	.post-nav li a {
+		color: #00a1f1 !important;
+		
+	}
+	
+	.post-fixed-div{
+		position:fixed;
+		bottom:0;
+		z-index: 1100;
+		width:100%;
+		height:56px;
+	}
+	
+	.sticky-container{
+		padding:0px;
+		margin:0px;
+		position:fixed;
+		bottom:0;
+		
+		z-index: 1100;
+	}
+	.sticky li{
+		list-style-type:none;
+		background-color:#fff;
+		color:#efefef;
+		height:43px;
+		padding:0px;
+		margin:0px 0px 1px 0px;
+		-webkit-transition:all 0.25s ease-in-out;
+		-moz-transition:all 0.25s ease-in-out;
+		-o-transition:all 0.25s ease-in-out;
+		transition:all 0.25s ease-in-out;
+		cursor:pointer;
+	}
+
+	.sticky li img{
+		float:left;
+		margin:5px 4px;
+		margin-right:5px;
+	}
+
+	</style>
+	<script src="Amazon%20EC2%20Connection_files/jquery.min.js"></script>
+	<script>
+		$(document).ready(function() {
+			
+			
+			$('.monika-social-share').hide(); //hide your div initially
+			var topOfOthDiv = $("#stop-social-fixed-div").offset().top;
+			$(window).on('scroll', function() {
+				
+				if($(window).scrollTop() >= topOfOthDiv) { //scrolled past the other div?
+					$('.monika-social-share').fadeOut(); //reached the desired point -- show div
+				}else if ($(window).scrollTop() > 300) {
+					$('.monika-social-share').fadeIn();
+				}else{
+					$('.monika-social-share').fadeOut();
+				}
+			});
+			
+			
+			
+			
+		});
+		
+
+		
+
+	</script>
+<link rel="stylesheet" type="text/css" href="Amazon%20EC2%20Connection_files/buttons-secure.css"></head><!--/head-->
+
+<body>
+	 <!-- Google Tag Manager --> 
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-KTKS6K7');</script>
+<!-- End Google Tag Manager -->
+	<header id="header">      
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12 overflow">
+                   <div class="social-icons pull-right">
+                        <ul class="nav nav-pills">
+                            <!-- <li><a href=""><i class="fa fa-facebook"></i></a></li> -->
+                            <li><a target="_blank" href="https://twitter.com/monika"><i class="fa fa-twitter"></i></a></li>
+                            <li><a target="_blank" href="https://www.youtube.com/channel/UCnPSSSABeuZTSI6QQI8SXBA"><i class="fa fa-youtube"></i></a></li>
+                            <!-- <li><a href=""><i class="fa fa-google-plus"></i></a></li>
+                            <li><a href=""><i class="fa fa-dribbble"></i></a></li>
+                            <li><a href=""><i class="fa fa-linkedin"></i></a></li> -->
+                        </ul>
+                    </div> 
+                </div>
+             </div>
+        </div>
+        <div class="navbar navbar-inverse" role="banner">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+
+                    <a class="navbar-brand" href="https://www.monika.com/">
+						<img class="hidden-xs" style="margin-top: -35px;" src="Amazon%20EC2%20Connection_files/logo.png" alt="logo">
+						<img class="visible-xs" src="Amazon%20EC2%20Connection_files/monika_Logo.png" alt="logo">
+                    	<h1></h1>
+                    </a>
+                    
+                </div>
+                <div class="collapse navbar-collapse">
+                     <ul class="nav navbar-nav navbar-right">
+                       
+                        <li class="dropdown"><a href="#">Services <i class="fa fa-angle-down"></i></a>
+                            <ul role="menu" class="sub-menu">
+                               
+                                <li><a href="http://monika.com/Web-Development">Web Development</a></li>
+                                <li><a href="http://monika.com/Android-Development">Android Development</a></li>
+                                <li><a href="http://monika.com/Digital-Marketing">Digital Marketing</a></li>
+                                <li><a href="http://monika.com/SEO">SEO</a></li>
+                                <li><a href="http://monika.com/Email-Marketing">Email Marketing</a></li>
+                                <li><a href="http://monika.com/Payment">Payment Integrations</a></li>
+                                <li><a href="http://monika.com/Cloud-Hosting">Cloud Hosting</a></li>
+                            </ul>
+                        </li> 
+                                              
+                        <li><a href="http://monika.com/about-us">About-Us</a></li>
+                        <li><a href="http://monika.com/contact-us">Contact-Us</a></li>
+                        <li><a href="http://monika.com/blog">Blog</a></li>
+                    </ul>
+                </div>
+                <!-- <div class="search">
+                    <form role="form">
+                        <i class="fa fa-search"></i>
+                        <div class="field-toggle">
+                            <input type="text" class="search-form" autocomplete="off" placeholder="Search">
+                        </div>
+                    </form>
+                </div> -->
+            </div>
+        </div>
+    </header>
+    <!--/#header-->
+
+
+    <!--/#page-breadcrumb-->
+	
+	
+	<div class="row post-fixed-div monika-social-share" style="background-color: rgb(255, 255, 255); display: block;">
+		<div class="col-md-4 visible-lg" style="padding-top: 0.5%;padding-left: 5%;">
+				<div class="row" style="cusor: pointer;">
+					<div class="col-md-2">
+						<img class="img-responsive" style="float:right;" src="Amazon%20EC2%20Connection_files/monika-left-icon.png" alt="monika-left-icon">
+					</div>
+					<div class="col-md-10">
+						<a href="http://localhost/monika/blog/2022/01/aws-ec2-pem-key-to-ppk-key"><p class="monika-previous-post">AWS EC2 KEY</p></a>
+					</div>
+				</div>
+		</div>
+		<div class="col-md-4 visible-lg" style="padding-left: 5%">
+				
+		</div>
+		
+		
+		<!-- Extra For devices -->
+		<div style="margin-left: 33%;" class="col-md-12 visible-md visible-sm ">
+					</div>
+		<div class="col-md-12 visible-xs ">
+					</div>
+		<!-- -->
+		<div class="col-md-4 visible-lg" style="padding-top: 0.5%;padding-right: 5%;">
+			<div class="row" style="cusor: pointer;">
+					<div class="col-md-10">
+						<a href="http://localhost/monika/blog/2022/01/google-login-oauth"><p class="monika-next-post" style="float:right;">GOOGLE LOGIN OAUTH</p></a>
+					</div>
+					<div class="col-md-2">
+						<img class="img-responsive" style="float:left;" src="Amazon%20EC2%20Connection_files/monika-right-icon.png" alt="monika-right-icon">
+					</div>
+					
+			</div>
+		</div>
+	</div>
+
+
+    <section id="blog-details" class="">
+        <div class="container">
+			  <div class="row">
+                <div class="col-md-12 col-sm-12">
+                    <div class="row">
+						 <div class="col-md-2 col-sm-2"></div>
+                         <div class="col-md-8 col-sm-8">
+                            <div class="single-blog blog-details two-column">
+                                <div class="post-thumb">
+									<h1 style="font-family: &quot;Lucida Grande&quot;,&quot;Lucida Sans Unicode&quot;,&quot;Lucida Sans&quot;,Geneva,Arial,sans-serif;color:#00a1f1;font-family: &quot;Lucida Grande&quot;,&quot;Lucida Sans Unicode&quot;,&quot;Lucida Sans&quot;,Geneva,Arial,sans-serif;font-weight: 700;font-style: normal;font-size: 42px;line-height: 1.04;letter-spacing: -.015em;">Launching Your Application on AWS</h1>
+									<h2 name="7b95" id="7b95" style="color: rgba(0,0,0,.54);font-family: medium-content-sans-serif-font,&quot;Lucida Grande&quot;,&quot;Lucida Sans Unicode&quot;,&quot;Lucida Sans&quot;,Geneva,Arial,sans-serif;letter-spacing: -.02em;font-weight: 300;font-style: normal;letter-spacing: 0;font-size: 28px;line-height: 1.22;letter-spacing: -.012em;" class="graf graf--h4 graf-after--h3 graf--subtitle">Logging into AWS server using 3rd-party applications:</h2>
+                                    <a href="#"><img src="Amazon%20EC2%20Connection_files/monika-aws-ec2-home.png" class="img-responsive" alt="monika-aws-ec2-home"></a>
+                                    <div class="post-overlay">
+                                        <span class="uppercase hidden-xs"><a href="#">16 <br><small>Jan</small></a></span>
+                                    </div>
+                                </div>
+								<div class=" overflow" style="padding:1%;">
+                                        <ul class="nav navbar-nav post-nav">
+                                            <li class="monika-content-p"><a href="#"><i class="fa fa-tag"></i>AWS</a></li>
+                                         </ul>
+                                </div>
+                                <div class="post-content overflow">
+									
+                                    <p name="350a" id="350a" class="monika-content-p"><span class="graf-dropCap" style="font-family: medium-content-sans-serif-font,&quot;Lucida Grande&quot;,&quot;Lucida Sans Unicode&quot;,&quot;Lucida Sans&quot;,Geneva,Arial,sans-serif;letter-spacing: -.02em;font-weight: 700;font-style: normal;letter-spacing: 0;font-size: 52px;padding-top: 6px;margin-right: 7px;letter-spacing: -.03em;line-height: .33;margin-bottom: -.08em;display: block;position: relative;float: left;">
+									If</span> you are looking to connect to your ec2 instance after
+ launch. Firstly you need to convert the pem key ( you download while 
+creating the instance ) to ppk key. If you don’t know how to convert and
+ save ppk key from pem click <a href="http://localhost/monika/blog/2022/01/aws-ec2-pem-key-to-ppk-key" target="_blank">here</a>.</p>
+                                    
+									<p name="6fda" id="6fda" class="monika-content-p">For connecting to ec2 instance you can use putty or Bitvise SSH. I am using <strong>Bitvise</strong> , installing bitvise is pretty straight forward like other applications installing on your operating system. </p>
+									<ul class="monika-content-p" style="list-style: inherit;">
+									<li>Once done - open it, you can see the fields like <span style="background-color:#cee8f4;">hostname , username , port , input method and more </span>.</li>
+									<br>
+									<img src="Amazon%20EC2%20Connection_files/monika-bitvise-details.png" class="img-responsive" alt="monika-bitvise-details">
+									<br>
+									<li>You can get all this values from AWS dashboard.</li>
+									<li>Login into AWS console, click on instance and select the instance you want to connect.</li>
+									<li>After selecting the instance you can see <strong>connect button enables</strong>.</li>
+									<li>Click on connect button to see the SSH login details as shown below.</li>
+									<br>
+									<img src="Amazon%20EC2%20Connection_files/monika-ec2-host-details.png" class="img-responsive" alt="monika-ec2-host-details">
+									<br>
+								
+									<li>Please enter the host-name , user-name as shown in the image.</li>
+									<br>
+									<img src="Amazon%20EC2%20Connection_files/monika_puttygen_logindetails.png" class="img-responsive" alt="monika_puttygen_logindetails">
+									<br>
+									<li>Please enter the host-name , user-name as shown in the 
+image. Now you need to upload your ppk key that you converted by 
+selecting the <strong>key manager</strong> as shown in the image</li>
+									<br>
+									<img src="Amazon%20EC2%20Connection_files/monika-keygen-client-manager.png" class="img-responsive" alt="monika-keygen-client-manager">
+									<img src="Amazon%20EC2%20Connection_files/techawa-keygen-client-file-import.png" class="img-responsive" alt="techawa-keygen-client-file-import">
+									<br>
+									<li>In Input method section - click on public key option and select the key you uploaded. </li>
+									<br>
+									<img src="Amazon%20EC2%20Connection_files/monika-keygen-input-method.png" class="img-responsive" alt="monika-keygen-input-method">
+									<br>
+									<li>Finally click on login button at the bottom.</li>
+									<p name="350a" id="350a" class="monika-content-p"><span style="background-color:#cee8f4;">You can save the profile so that you no need to enter all the details every time you login.</span></p>
+									<p name="6fda" id="6fda" class="monika-content-p">Launch your 
+web application on AWS EC2 Instance. To Launch your application you need
+ to install supporting libraries and servers on top of it.</p>
+									<p name="350a" id="350a" class="monika-content-p"><span style="background-color:#cee8f4;"><strong>You can contact us to setup your application.</strong></span></p>
+									
+									</ul>
+									<br>
+									
+									<br>
+										<style>
+									
+									div.laptop-wrapper {
+										position: relative;
+										padding-top: 25px;
+										padding-bottom: 67.5%;
+										height: 0;
+									}
+									div.laptop-wrapper iframe {
+										box-sizing: border-box;
+										background: url(https://i.stack.imgur.com/zZNgk.png) center center no-repeat;
+										background-size: contain;
+										padding: 11.9% 15.5% 14.8%;
+										position: absolute;
+										top: 0;
+										left: 0;
+										width: 100%;
+										height: 100%;
+									}
+
+									</style>  
+									 
+
+									
+									
+									
+								
+									<div class="sidebar-item tag-cloud">
+									<h3 style="text-align:center" class="monika-content-p">Frequent Viewed Posts</h3>
+									
+			<div class="row">
+                   <div class="col-md-6  wow fadeInLeft animated animated animated animated" data-wow-duration="1000ms" data-wow-delay="300ms" style="visibility: visible; animation-duration: 1000ms; animation-delay: 300ms; animation-name: fadeInLeft;">
+                            <div class="single-blog timeline">
+                                <div class="single-blog-wrapper">
+                                    <div class="post-thumb">
+                                        <img src="Amazon%20EC2%20Connection_files/monika-aws-ec2-home.png" class="img-responsive" alt="monika-aws-ec2-home">
+                                        <div class="post-overlay">
+                                           <span class="uppercase"><a href="#">20 <br><small>Jan</small></a></span>
+                                       </div>
+                                    </div>
+                                </div>
+                                <div class="post-content overflow">
+                                    <h2 class="post-title bold"><strong><a href="http://localhost/monika/blog/2022/01/aws-how-to-create-ec2-instance">How To Create AWS EC2 Instance</a></strong></h2>
+                                    <h3 class="post-author"><a href="#">Posted by monika</a></h3>
+                                    <p class="monika-content-p">They are
+ many companies which offers cloud-services like AMAZON, GOOGLE, 
+RACKSPACE , MICROSOFT , AT&amp;T and so on. Now i am going to share how 
+to run your application on ...</p>
+                                    <a href="http://localhost/monika/blog/2022/01/aws-how-to-create-ec2-instance" style="text-align:center !important" class="">View More</a>
+                                    <div class="post-bottom overflow">
+                                        <span class="post-date pull-left">January 20, 2018</span>
+                                        <span class="comments-number pull-right"><a href="#"><i class="fa fa-tag"></i> AWS</a></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                          <div class="col-md-6  wow fadeInLeft animated animated animated animated" data-wow-duration="1000ms" data-wow-delay="300ms" style="visibility: visible; animation-duration: 1000ms; animation-delay: 300ms; animation-name: fadeInLeft;">
+							<div class="single-blog timeline">
+									<div class="single-blog-wrapper">
+										<div class="post-thumb">
+											<img src="Amazon%20EC2%20Connection_files/monika-aws-ec2-home.png" class="img-responsive" alt="monika-aws-ec2-home">
+											<div class="post-overlay">
+											<span class="uppercase"><a href="#">18 <br><small>Jan</small></a></span>
+										</div>
+										</div>
+									</div>
+									<div class="post-content overflow">
+										<h2 class="post-title bold"><strong><a href="http://localhost/monika/blog/2022/01/aws-ec2-pem-key-to-ppk-key">How To Convert PEM key to PPK Key</a></strong></h2>
+										<h3 class="post-author"><a href="#">Posted by monika</a></h3>
+										<p class="monika-content-p">After you launch your instance.it 
+can take a few minutes for the instance to be ready so that you can 
+connect to it. Check that your instance has passed its status checks ...</p>
+										<a href="http://localhost/monika/blog/2022/01/aws-ec2-pem-key-to-ppk-key" style="text-align:center !important" class="">View More</a>
+										<div class="post-bottom overflow">
+											<span class="post-date pull-left">January 18, 2018</span>
+											<span class="comments-number pull-right"><a href="#"><i class="fa fa-tag"></i> Job's</a></span>
+										</div>
+									</div>
+								</div>
+                        </div>
+                           <div class="col-md-6 padding-top wow fadeInLeft animated animated animated" data-wow-duration="1000ms" data-wow-delay="300ms" style="visibility: hidden; animation-duration: 1000ms; animation-delay: 300ms; animation-name: none;">
+						   <div class="single-blog timeline">
+                                <div class="single-blog-wrapper">
+                                    <div class="post-thumb">
+                                        <img src="Amazon%20EC2%20Connection_files/monika-google-apis-home.png" class="img-responsive" alt="monika-google-apis-home">
+                                        <div class="post-overlay">
+                                           <span class="uppercase"><a href="#">14 <br><small>Jan</small></a></span>
+                                       </div>
+                                    </div>
+                                </div>
+                                <div class="post-content overflow">
+                                    <h2 class="post-title bold"><strong><a href="http://localhost/monika/blog/2022/01/google-login-oauth">Google Login Authentication</a></strong></h2>
+                                    <h3 class="post-author"><a href="#">Posted by monika</a></h3>
+                                    <p class="monika-content-p">One of 
+the most impressive values of Google API is an interface that allows you
+ to seamlessly integrate automate features of Google services. Google 
+has made its powerful web services ...</p>
+                                    <a href="http://localhost/monika/blog/2022/01/google-login-oauth" style="text-align:center !important" class="">View More</a>
+                                    <div class="post-bottom overflow">
+                                        <span class="post-date pull-left">January 14, 2018</span>
+                                        <span class="comments-number pull-right"><a href="#"><i class="fa fa-tag"></i> Google API</a></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+						 <div class="col-md-6  padding-top wow fadeInLeft animated animated animated" data-wow-duration="1000ms" data-wow-delay="300ms" style="visibility: hidden; animation-duration: 1000ms; animation-delay: 300ms; animation-name: none;">
+						 			<div class="single-blog timeline">
+										<div class="single-blog-wrapper">
+											<div class="post-thumb">
+												<img src="Amazon%20EC2%20Connection_files/monika-google-apis-home.png" class="img-responsive" alt="monika-domain-list">
+												<div class="post-overlay">
+												<span class="uppercase"><a href="#">11 <br><small>Jan</small></a></span>
+											</div>
+											</div>
+										</div>
+										<div class="post-content overflow">
+											<h2 class="post-title bold"><strong><a href="http://localhost/monika/blog/2022/01/google-refresh-token">Google Token Refresh Using REST API</a></strong></h2>
+											<h3 class="post-author">Posted by monika</h3>
+											<p class="monika-content-p">OAuth 2.0 flow is specifically 
+for user authorization. It is designed for applications that can store 
+confidential information and maintain state. A properly authorized web 
+server application ...</p>
+											<a href="http://localhost/monika/blog/2022/01/google-refresh-token" style="text-align:center !important" class="">View More</a>
+											<div class="post-bottom overflow">
+												<span class="post-date pull-left">January 11, 2018</span>
+												<span class="comments-number pull-right"><a href="#"><i class="fa fa-tag"></i> Google API</a></span>
+											</div>
+										</div>
+								</div>
+                        </div>
+						
+            </div>
+	
+	
+									</div>
+									
+									
+									
+									
+
+								
+								</div>
+                            </div>
+                        </div>
+                   
+						<div class="col-md-2 col-sm-2"></div>
+				   </div>
+                 </div>
+				 
+           
+		   </div>
+        
+		
+		</div>
+    </section>
+    <!--/#blog-->
+
+     <footer id="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12 text-center bottom-separator">
+                    <img src="Amazon%20EC2%20Connection_files/under.png" class="img-responsive inline" alt="">
+                </div>
+        <div class="col-md-1">
+        </div>
+          <div class="col-md-2">
+             <div class="testimonial bottom">
+                        <h2>Our Services</h2>
+                        <div class="media">
+                           <a href="https://www.monika.com/Web-Development" style="color:#000 "><img src="Amazon%20EC2%20Connection_files/web.png" alt=""> WEB DEVELOPMENT</a>
+                        </div>
+            <div class="media">
+                           <a href="https://www.monika.com/Android-Development" style="color:#000 "><img src="Amazon%20EC2%20Connection_files/android.png" alt=""> ANDROID DESIGN</a>
+                        </div>
+            <div class="media">
+                           <a href="https://www.monika.com/Digital-Marketing" style="color:#000 "><img src="Amazon%20EC2%20Connection_files/digital.png" alt=""> DIGITAL MARKETING</a>
+                        </div>
+            <div class="media">
+                           <a href="https://www.monika.com/SEO" style="color:#000 "><img src="Amazon%20EC2%20Connection_files/seo.png" alt=""> SEO</a>
+                        </div>
+            
+                           
+            </div>
+          
+        </div>
+          <div class="col-md-2">
+             <div class="testimonial bottom">
+                        <h2> </h2>
+            <div class="media">
+                          
+                        </div>
+            <div class="media">
+                           <a href="https://www.monika.com/Email-Marketing" style="color:#000 "><img src="Amazon%20EC2%20Connection_files/email.png" alt=""> EMAIL MARKETING</a>
+                        </div>
+                        <div class="media">
+                           <a href="https://www.monika.com/Payment" style="color:#000 "><img src="Amazon%20EC2%20Connection_files/payment.png" alt=""> PAYMENT GATEWAY</a>
+                        </div>
+            <div class="media">
+                           <a href="https://www.monika.com/Cloud-Hosting" style="color:#000 "><img src="Amazon%20EC2%20Connection_files/cloud.png" alt=""> CLOUD HOSTING</a>
+                        </div>
+            
+                           
+            </div>
+          
+        </div>
+        <div class="col-md-2">
+          <div class="row">
+                           <h2></h2>
+                    </div>
+          <img class="img-responsive" src="Amazon%20EC2%20Connection_files/monika-footer.png" alt="logo">
+        </div>
+        <div class="col-md-2" style="text-align:center;">
+             <div class="testimonial bottom">
+                        
+            <h2>GET IN TOUCH</h2>
+            <div class="media">
+                           <a href="#" style="color:#000 "> BLOG</a>
+                        </div>
+                        <div class="media">
+                           <a href="https://www.monika.com/contact-us" style="color:#000 "> CONTACT-US</a>
+                        </div>
+            <div class="media">
+                           <a href="https://www.monika.com/about-us" style="color:#000 "> ABOUT-US</a>
+                        </div>
+            <div class="media">
+                           <a href="#" style="color:#000 "> DONATE-US</a>
+                        </div>
+            
+                           
+            </div>
+          
+        </div>
+        <div class="col-md-2" style="text-align:center;">
+             <div class="testimonial bottom">
+                        <h2> STAY WITH US</h2>
+                        <!-- <div class="media">
+                           <a target="_blank" href="#" style="color:#000 "> FACEBOOK</a>
+                        </div> -->
+                        <div class="media">
+                           <a target="_blank" href="https://twitter.com/monika" style="color:#000 "> TWITTER</a>
+                        </div>
+                        <div class="media">
+                           <a target="_blank" href="https://www.youtube.com/channel/UCnPSSSABeuZTSI6QQI8SXBA" style="color:#000 "> YOUTUBE</a>
+                        </div>
+                        <!-- <div class="media">
+                           <a href="#" style="color:#000 "> INSTAGRAM</a>
+                        </div> -->
+            
+                           
+            </div>
+          
+        </div>
+          
+        <div class="col-md-1">
+        </div>
+        
+                
+                <div class="col-sm-12">
+                    <div class="copyright-text text-center">
+            <p>© <a target="_blank" style="color:#00a1f1" href="http://www.monika.com/">monika</a> 2023. All Rights Reserved.</p>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <!--/#footer-->
+
+
+    <script type="text/javascript" src="Amazon%20EC2%20Connection_files/jquery.js"></script>
+    <script type="text/javascript" src="Amazon%20EC2%20Connection_files/bootstrap.min.js"></script>
+    <script type="text/javascript" src="Amazon%20EC2%20Connection_files/lightbox.min.js"></script>
+    <script type="text/javascript" src="Amazon%20EC2%20Connection_files/wow.min.js"></script>
+    <script type="text/javascript" src="Amazon%20EC2%20Connection_files/main.js"></script>   
+
+
+<div id="lightboxOverlay" class="lightboxOverlay" style="display: none;"></div><div id="lightbox" class="lightbox" style="display: none;"><div class="lb-outerContainer"><div class="lb-container"><img class="lb-image" src=""><div class="lb-nav"><a class="lb-prev" href=""></a><a class="lb-next" href=""></a></div><div class="lb-loader"><a class="lb-cancel"></a></div></div></div><div class="lb-dataContainer"><div class="lb-data"><div class="lb-details"><span class="lb-caption"></span><span class="lb-number"></span></div><div class="lb-closeContainer"><a class="lb-close"></a></div></div></div></div><div id="stcpDiv" style="position: absolute; top: -1999px; left: -1988px;">ShareThis Copy and Paste</div><div id="stwrapper" class="stwrapper stwrapper5x stwrapper5x" style="display: none;"><iframe allowtransparency="true" id="stLframe" class="stLframe" name="stLframe" scrolling="no" src="Amazon%20EC2%20Connection_files/index.html" frameborder="0"></iframe></div><div id="stOverlay" onclick="javascript:stWidget.closeWidget();"></div></body></html>

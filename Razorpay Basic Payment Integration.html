@@ -1,0 +1,794 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>Razorpay Basic Payment Integration | monika</title>
+    <link href="Razorpay%20Basic%20Payment%20Integration_files/bootstrap.min.css" rel="stylesheet">
+    <link href="Razorpay%20Basic%20Payment%20Integration_files/font-awesome.min.css" rel="stylesheet">
+    <link href="Razorpay%20Basic%20Payment%20Integration_files/lightbox.css" rel="stylesheet"> 
+    <link href="Razorpay%20Basic%20Payment%20Integration_files/animate.min.css" rel="stylesheet"> 
+	<link href="Razorpay%20Basic%20Payment%20Integration_files/main.css" rel="stylesheet">
+	<link href="Razorpay%20Basic%20Payment%20Integration_files/responsive.css" rel="stylesheet">
+
+    <!--[if lt IE 9]>
+	    <script src="js/html5shiv.js"></script>
+	    <script src="js/respond.min.js"></script>
+    <![endif]-->       
+    <meta name="viewport" content="width=device-width">
+    <link rel="shortcut icon" href="http://localhost/monika/images/ico/favicon.ico">
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="http://localhost/monika/images/ico/apple-touch-icon-144-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="http://localhost/monika/images/ico/apple-touch-icon-114-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="http://localhost/monika/images/ico/apple-touch-icon-72-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" href="http://localhost/monika/images/ico/apple-touch-icon-57-precomposed.png">
+    <script async="" src="Razorpay%20Basic%20Payment%20Integration_files/panorama.js"></script><iframe id="pxcelframe" title="pxcelframe" style="display: none;" src="//t.sharethis.com/a/t_.htm?ver=1.1109.23349&amp;cid=c010#rnd=1673417904405&amp;cid=c010&amp;dmn=localhost&amp;gdpr_domain=false&amp;tt=t.dhj&amp;dhjLcy=642&amp;lbl=pxcel&amp;flbl=pxcel&amp;ll=d&amp;ver=1.1109.23349&amp;ell=d&amp;cck=__stid&amp;pn=%2Fmonika%2Fblog%2F2022%2F02%2Frazorpay-basic-payment.php&amp;qs=na&amp;rdn=localhost&amp;rpn=%2Fmonika%2Fblog%2F2022%2F02%2Frazorpay-basic-payment.php&amp;rqs=na&amp;cc=IN&amp;cont=AS&amp;ipaddr="></iframe><script type="text/javascript" async="" src="Razorpay%20Basic%20Payment%20Integration_files/analytics.js"></script><script async="" src="Razorpay%20Basic%20Payment%20Integration_files/gtm.js"></script><script type="text/javascript" id="async-buttons" src="Razorpay%20Basic%20Payment%20Integration_files/async-buttons.js"></script><script type="text/javascript">var switchTo5x=true;</script>
+    <script type="text/javascript" src="Razorpay%20Basic%20Payment%20Integration_files/buttons.js"></script>
+    <script type="text/javascript">stLight.options({publisher: "7e8eb33b-fbe0-4915-9b93-09490e3d10df", doNotHash: false, doNotCopy: false, hashAddressBar: false});</script>
+	<style>
+	.monika-content-p, .monika-previous-post, .monika-next-post{
+		font-family: Georgia,Cambria,"Times New Roman",Times,serif;
+		letter-spacing: .003rem !important;
+		font-weight: 400;
+		font-style: normal;
+		font-size: 21px;
+		line-height: 1.58;
+		color: rgba(12, 12, 12, 0.7);
+	}
+	.monika-sub-heading{
+		font-style: normal;
+		font-size: 34px;
+		margin-left: -2.13px;
+		line-height: 1.15;
+		letter-spacing: -.015em;
+		font-weight: 600;
+		font-family: "Lucida Grande","Lucida Sans Unicode","Lucida Sans",Geneva,Arial,sans-serif;
+		color: rgba(0, 0, 0, 0.7);
+	}
+	.post-nav li a i {
+		color: #00a1f1 !important;
+	}
+	.post-nav li a {
+		color: #00a1f1 !important;
+		
+	}
+	
+	.post-fixed-div{
+		position:fixed;
+		bottom:0;
+		z-index: 1100;
+		width:100%;
+		height:56px;
+	}
+	
+	.sticky-container{
+		padding:0px;
+		margin:0px;
+		position:fixed;
+		bottom:0;
+		
+		z-index: 1100;
+	}
+	.sticky li{
+		list-style-type:none;
+		background-color:#fff;
+		color:#efefef;
+		height:43px;
+		padding:0px;
+		margin:0px 0px 1px 0px;
+		-webkit-transition:all 0.25s ease-in-out;
+		-moz-transition:all 0.25s ease-in-out;
+		-o-transition:all 0.25s ease-in-out;
+		transition:all 0.25s ease-in-out;
+		cursor:pointer;
+	}
+
+	.sticky li img{
+		float:left;
+		margin:5px 4px;
+		margin-right:5px;
+	}
+
+	</style>
+	<script src="Razorpay%20Basic%20Payment%20Integration_files/jquery.min.js"></script>
+	<script>
+		$(document).ready(function() {
+			
+			
+			
+			$('.monika-social-share').hide(); //hide your div initially
+			var topOfOthDiv = $("#stop-social-fixed-div").offset().top;
+			var videohide = $("#stop-monika-video-play").offset().top;
+			$(window).on('scroll', function() {
+				
+				if($(window).scrollTop() >= videohide) { //scrolled past the other div?
+					$('#monika_video_play').hide(); //reached the desired point -- show div
+					
+				}
+					
+				if($(window).scrollTop() >= topOfOthDiv) { //scrolled past the other div?
+					$('.monika-social-share').fadeOut(); //reached the desired point -- show div
+					
+					
+				}else if ($(window).scrollTop() > 300) {
+					$('.monika-social-share').fadeIn();
+				}else{
+					$('.monika-social-share').fadeOut();
+				}
+			});
+			
+			
+			
+			
+		});
+		
+
+		
+
+	</script>
+<link rel="stylesheet" type="text/css" href="Razorpay%20Basic%20Payment%20Integration_files/buttons-secure.css"></head><!--/head-->
+
+<body>
+	 <!-- Google Tag Manager --> 
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-KTKS6K7');</script>
+<!-- End Google Tag Manager -->
+	<header id="header">      
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12 overflow">
+                   <div class="social-icons pull-right">
+                        <ul class="nav nav-pills">
+                            <!-- <li><a href=""><i class="fa fa-facebook"></i></a></li> -->
+                            <li><a target="_blank" href="https://twitter.com/monika"><i class="fa fa-twitter"></i></a></li>
+                            <li><a target="_blank" href="https://www.youtube.com/channel/UCnPSSSABeuZTSI6QQI8SXBA"><i class="fa fa-youtube"></i></a></li>
+                            <!-- <li><a href=""><i class="fa fa-google-plus"></i></a></li>
+                            <li><a href=""><i class="fa fa-dribbble"></i></a></li>
+                            <li><a href=""><i class="fa fa-linkedin"></i></a></li> -->
+                        </ul>
+                    </div> 
+                </div>
+             </div>
+        </div>
+        <div class="navbar navbar-inverse" role="banner">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+
+                    <a class="navbar-brand" href="https://www.monika.com/">
+						<img class="hidden-xs" style="margin-top: -35px;" src="Razorpay%20Basic%20Payment%20Integration_files/logo.png" alt="logo">
+						<img class="visible-xs" src="Razorpay%20Basic%20Payment%20Integration_files/monika_Logo.png" alt="logo">
+                    	<h1></h1>
+                    </a>
+                    
+                </div>
+                <div class="collapse navbar-collapse">
+                     <ul class="nav navbar-nav navbar-right">
+                       
+                        <li class="dropdown"><a href="#">Services <i class="fa fa-angle-down"></i></a>
+                            <ul role="menu" class="sub-menu">
+                               
+                                <li><a href="http://monika.com/Web-Development">Web Development</a></li>
+                                <li><a href="http://monika.com/Android-Development">Android Development</a></li>
+                                <li><a href="http://monika.com/Digital-Marketing">Digital Marketing</a></li>
+                                <li><a href="http://monika.com/SEO">SEO</a></li>
+                                <li><a href="http://monika.com/Email-Marketing">Email Marketing</a></li>
+                                <li><a href="http://monika.com/Payment">Payment Integrations</a></li>
+                                <li><a href="http://monika.com/Cloud-Hosting">Cloud Hosting</a></li>
+                            </ul>
+                        </li> 
+                                              
+                        <li><a href="http://monika.com/about-us">About-Us</a></li>
+                        <li><a href="http://monika.com/contact-us">Contact-Us</a></li>
+                        <li><a href="http://monika.com/blog">Blog</a></li>
+                    </ul>
+                </div>
+                <!-- <div class="search">
+                    <form role="form">
+                        <i class="fa fa-search"></i>
+                        <div class="field-toggle">
+                            <input type="text" class="search-form" autocomplete="off" placeholder="Search">
+                        </div>
+                    </form>
+                </div> -->
+            </div>
+        </div>
+    </header>
+    <!--/#header-->
+
+
+    <!--/#page-breadcrumb-->
+	
+	
+	
+	
+	<div class="row post-fixed-div monika-social-share" style="background-color: rgb(255, 255, 255); display: none;">
+		<div class="col-md-4 visible-lg" style="padding-top: 0.5%;padding-left: 5%;">
+				<div class="row" style="cusor: pointer;">
+					<div class="col-md-2">
+						<img class="img-responsive" style="float:right;" src="Razorpay%20Basic%20Payment%20Integration_files/monika-left-icon.png" alt="monika-left-icon">
+					</div>
+					<div class="col-md-10">
+						<a href="http://localhost/monika/blog/2022/02/razorpay-subscription-payment"><p class="monika-previous-post">RAZORPAY RECURRING</p></a>
+					</div>
+				</div>
+		</div>
+		<div class="col-md-4 visible-lg" style="padding-left: 5%">
+				<script type="text/javascript">
+function PopupCenterDual(url, title, w, h) {
+// Fixes dual-screen position Most browsers Firefox
+var dualScreenLeft = window.screenLeft != undefined ? window.screenLeft : screen.left;
+var dualScreenTop = window.screenTop != undefined ? window.screenTop : screen.top;
+width = window.innerWidth ? window.innerWidth : document.documentElement.clientWidth ? document.documentElement.clientWidth : screen.width;
+height = window.innerHeight ? window.innerHeight : document.documentElement.clientHeight ? document.documentElement.clientHeight : screen.height;
+
+var left = ((width / 2) - (w / 2)) + dualScreenLeft;
+var top = ((height / 2) - (h / 2)) + dualScreenTop;
+var newWindow = window.open(url, title, 'scrollbars=yes, width=' + w + ', height=' + h + ', top=' + top + ', left=' + left);
+
+// Puts focus on the newWindow
+if (window.focus) {
+newWindow.focus();
+}
+}
+</script>
+
+<div class="sticky-container ">
+				<ul class="sticky" style="display: inline-flex;">
+					<li>
+						
+						<a onclick="PopupCenterDual('http://www.facebook.com/sharer.php?u=http://localhost/monika/blog/2022/02/razorpay-basic-payment.php','monika','503','503'); ">
+						<img src="Razorpay%20Basic%20Payment%20Integration_files/monika-fb.png" width="32" height="32">
+					   </a>
+					</li>
+					<li>
+						
+						<a onclick="PopupCenterDual('https://twitter.com/share?url=http://localhost/monika/blog/2022/02/razorpay-basic-payment.php&amp;text=We%20At%20monika&amp;hashtags=','monika','503','503'); ">
+						<img src="Razorpay%20Basic%20Payment%20Integration_files/monika-twitter.png" width="32" height="32">
+					   </a>
+					</li>
+					<li>
+						
+						<a onclick="PopupCenterDual('http://www.linkedin.com/shareArticle?mini=true&amp;url=http://localhost/monika/blog/2022/02/razorpay-basic-payment.php','monika','503','503'); ">
+						<img src="Razorpay%20Basic%20Payment%20Integration_files/monika-linkedin.png" width="32" height="32">
+					   </a>
+					</li>
+					<li>
+					   
+						<a onclick="PopupCenterDual('https://api.whatsapp.com/send?text=http://localhost/monika/blog/2022/02/razorpay-basic-payment.php%20 #monika','monika','503','503'); ">
+						<img src="Razorpay%20Basic%20Payment%20Integration_files/monika-whatsapp.png" width="32" height="32">
+					   </a>
+					</li>
+					<li>
+					   
+						<a onclick="PopupCenterDual('https://www.google.com/bookmarks/mark?op=edit&amp;bkmk=http://localhost/monika/blog/2022/02/razorpay-basic-payment.php&amp;title=&amp;annotation=monika&amp;labels=monika','monika','503','503'); ">
+						<img src="Razorpay%20Basic%20Payment%20Integration_files/monika-plus.png" width="32" height="32">
+					   </a>
+					</li>
+					<li>
+						<a onclick="PopupCenterDual('https://pinterest.com/pin/create/button/?url=http://localhost/monika/blog/2022/02/razorpay-basic-payment.php&amp;media=monika&amp;description=','monika','503','503'); ">
+						<img src="Razorpay%20Basic%20Payment%20Integration_files/monika-pinterest.png" width="32" height="32">
+					   </a>
+					</li>
+				</ul>
+			</div>
+
+		</div>
+		
+		
+		<!-- Extra For devices -->
+		<div style="margin-left: 33%;" class="col-md-12 visible-md visible-sm ">
+			<script type="text/javascript">
+function PopupCenterDual(url, title, w, h) {
+// Fixes dual-screen position Most browsers Firefox
+var dualScreenLeft = window.screenLeft != undefined ? window.screenLeft : screen.left;
+var dualScreenTop = window.screenTop != undefined ? window.screenTop : screen.top;
+width = window.innerWidth ? window.innerWidth : document.documentElement.clientWidth ? document.documentElement.clientWidth : screen.width;
+height = window.innerHeight ? window.innerHeight : document.documentElement.clientHeight ? document.documentElement.clientHeight : screen.height;
+
+var left = ((width / 2) - (w / 2)) + dualScreenLeft;
+var top = ((height / 2) - (h / 2)) + dualScreenTop;
+var newWindow = window.open(url, title, 'scrollbars=yes, width=' + w + ', height=' + h + ', top=' + top + ', left=' + left);
+
+// Puts focus on the newWindow
+if (window.focus) {
+newWindow.focus();
+}
+}
+</script>
+
+<div class="sticky-container ">
+				<ul class="sticky" style="display: inline-flex;">
+					<li>
+						
+						<a onclick="PopupCenterDual('http://www.facebook.com/sharer.php?u=http://localhost/monika/blog/2022/02/razorpay-basic-payment.php','monika','503','503'); ">
+						<img src="Razorpay%20Basic%20Payment%20Integration_files/monika-fb.png" width="32" height="32">
+					   </a>
+					</li>
+					<li>
+						
+						<a onclick="PopupCenterDual('https://twitter.com/share?url=http://localhost/monika/blog/2022/02/razorpay-basic-payment.php&amp;text=We%20At%20monika&amp;hashtags=','monika','503','503'); ">
+						<img src="Razorpay%20Basic%20Payment%20Integration_files/monika-twitter.png" width="32" height="32">
+					   </a>
+					</li>
+					<li>
+						
+						<a onclick="PopupCenterDual('http://www.linkedin.com/shareArticle?mini=true&amp;url=http://localhost/monika/blog/2022/02/razorpay-basic-payment.php','monika','503','503'); ">
+						<img src="Razorpay%20Basic%20Payment%20Integration_files/monika-linkedin.png" width="32" height="32">
+					   </a>
+					</li>
+					<li>
+					   
+						<a onclick="PopupCenterDual('https://api.whatsapp.com/send?text=http://localhost/monika/blog/2022/02/razorpay-basic-payment.php%20 #monika','monika','503','503'); ">
+						<img src="Razorpay%20Basic%20Payment%20Integration_files/monika-whatsapp.png" width="32" height="32">
+					   </a>
+					</li>
+					<li>
+					   
+						<a onclick="PopupCenterDual('https://www.google.com/bookmarks/mark?op=edit&amp;bkmk=http://localhost/monika/blog/2022/02/razorpay-basic-payment.php&amp;title=&amp;annotation=monika&amp;labels=monika','monika','503','503'); ">
+						<img src="Razorpay%20Basic%20Payment%20Integration_files/monika-plus.png" width="32" height="32">
+					   </a>
+					</li>
+					<li>
+						<a onclick="PopupCenterDual('https://pinterest.com/pin/create/button/?url=http://localhost/monika/blog/2022/02/razorpay-basic-payment.php&amp;media=monika&amp;description=','monika','503','503'); ">
+						<img src="Razorpay%20Basic%20Payment%20Integration_files/monika-pinterest.png" width="32" height="32">
+					   </a>
+					</li>
+				</ul>
+			</div>
+		</div>
+		<div class="col-md-12 visible-xs ">
+			<script type="text/javascript">
+function PopupCenterDual(url, title, w, h) {
+// Fixes dual-screen position Most browsers Firefox
+var dualScreenLeft = window.screenLeft != undefined ? window.screenLeft : screen.left;
+var dualScreenTop = window.screenTop != undefined ? window.screenTop : screen.top;
+width = window.innerWidth ? window.innerWidth : document.documentElement.clientWidth ? document.documentElement.clientWidth : screen.width;
+height = window.innerHeight ? window.innerHeight : document.documentElement.clientHeight ? document.documentElement.clientHeight : screen.height;
+
+var left = ((width / 2) - (w / 2)) + dualScreenLeft;
+var top = ((height / 2) - (h / 2)) + dualScreenTop;
+var newWindow = window.open(url, title, 'scrollbars=yes, width=' + w + ', height=' + h + ', top=' + top + ', left=' + left);
+
+// Puts focus on the newWindow
+if (window.focus) {
+newWindow.focus();
+}
+}
+</script>
+
+<div class="sticky-container ">
+				<ul class="sticky" style="display: inline-flex;">
+					<li>
+						
+						<a onclick="PopupCenterDual('http://www.facebook.com/sharer.php?u=http://localhost/monika/blog/2022/02/razorpay-basic-payment.php','monika','503','503'); ">
+						<img src="Razorpay%20Basic%20Payment%20Integration_files/monika-fb.png" width="32" height="32">
+					   </a>
+					</li>
+					<li>
+						
+						<a onclick="PopupCenterDual('https://twitter.com/share?url=http://localhost/monika/blog/2022/02/razorpay-basic-payment.php&amp;text=We%20At%20monika&amp;hashtags=','monika','503','503'); ">
+						<img src="Razorpay%20Basic%20Payment%20Integration_files/monika-twitter.png" width="32" height="32">
+					   </a>
+					</li>
+					<li>
+						
+						<a onclick="PopupCenterDual('http://www.linkedin.com/shareArticle?mini=true&amp;url=http://localhost/monika/blog/2022/02/razorpay-basic-payment.php','monika','503','503'); ">
+						<img src="Razorpay%20Basic%20Payment%20Integration_files/monika-linkedin.png" width="32" height="32">
+					   </a>
+					</li>
+					<li>
+					   
+						<a onclick="PopupCenterDual('https://api.whatsapp.com/send?text=http://localhost/monika/blog/2022/02/razorpay-basic-payment.php%20 #monika','monika','503','503'); ">
+						<img src="Razorpay%20Basic%20Payment%20Integration_files/monika-whatsapp.png" width="32" height="32">
+					   </a>
+					</li>
+					<li>
+					   
+						<a onclick="PopupCenterDual('https://www.google.com/bookmarks/mark?op=edit&amp;bkmk=http://localhost/monika/blog/2022/02/razorpay-basic-payment.php&amp;title=&amp;annotation=monika&amp;labels=monika','monika','503','503'); ">
+						<img src="Razorpay%20Basic%20Payment%20Integration_files/monika-plus.png" width="32" height="32">
+					   </a>
+					</li>
+					<li>
+						<a onclick="PopupCenterDual('https://pinterest.com/pin/create/button/?url=http://localhost/monika/blog/2022/02/razorpay-basic-payment.php&amp;media=monika&amp;description=','monika','503','503'); ">
+						<img src="Razorpay%20Basic%20Payment%20Integration_files/monika-pinterest.png" width="32" height="32">
+					   </a>
+					</li>
+				</ul>
+			</div>
+		</div>
+		<!-- -->
+		<div class="col-md-4 visible-lg" style="padding-top: 0.5%;padding-right: 5%;">
+			<div class="row" style="cusor: pointer;">
+					<div class="col-md-10">
+						<a href="http://localhost/monika/blog/2022/02/paypal-express-checkout-payment"><p class="monika-next-post" style="float:right;">PAYPAL EXPRESS PAY</p></a>
+					</div>
+					<div class="col-md-2">
+						<img class="img-responsive" style="float:left;" src="Razorpay%20Basic%20Payment%20Integration_files/monika-right-icon.png" alt="monika-right-icon">
+					</div>
+					
+			</div>
+		</div>
+	</div>
+
+
+    <section id="blog-details" class="">
+        <div class="container">
+			  <div class="row">
+                <div class="col-md-12 col-sm-12">
+                    <div class="row">
+						 <div class="col-md-2 col-sm-2"></div>
+                         <div class="col-md-8 col-sm-8">
+                            <div class="single-blog blog-details two-column">
+                                <div class="post-thumb">
+									<h1 style="font-family: &quot;Lucida Grande&quot;,&quot;Lucida Sans Unicode&quot;,&quot;Lucida Sans&quot;,Geneva,Arial,sans-serif;color:#00a1f1;font-family: &quot;Lucida Grande&quot;,&quot;Lucida Sans Unicode&quot;,&quot;Lucida Sans&quot;,Geneva,Arial,sans-serif;font-weight: 700;font-style: normal;font-size: 42px;line-height: 1.04;letter-spacing: -.015em;">Razorpay Payment Gateway Integration </h1>
+									<h2 name="7b95" id="7b95" style="color: rgba(0,0,0,.54);font-family: medium-content-sans-serif-font,&quot;Lucida Grande&quot;,&quot;Lucida Sans Unicode&quot;,&quot;Lucida Sans&quot;,Geneva,Arial,sans-serif;letter-spacing: -.02em;font-weight: 300;font-style: normal;letter-spacing: 0;font-size: 28px;line-height: 1.22;letter-spacing: -.012em;" class="graf graf--h4 graf-after--h3 graf--subtitle">Capture payment on any website through Razorpay </h2>
+                                    <a href="#"><img src="Razorpay%20Basic%20Payment%20Integration_files/monika-razorpay-recurring-payment-home.png" class="img-responsive" alt="monika-razorpay-recurring-payment-home"></a>
+                                    <div class="post-overlay">
+                                        <span class="uppercase hidden-xs"><a href="#">16 <br><small>Feb</small></a></span>
+                                    </div>
+                                </div>
+								<div class=" overflow" style="padding:1%;">
+                                        <ul class="nav navbar-nav post-nav">
+                                            <li class="monika-content-p"><a href="#"><i class="fa fa-tag"></i>Razorpay API</a></li>
+                                        </ul>
+                                </div>
+                                <div class="post-content overflow">
+									
+                                    <p name="350a" id="350a" class="monika-content-p"><span class="graf-dropCap" style="font-family: medium-content-sans-serif-font,&quot;Lucida Grande&quot;,&quot;Lucida Sans Unicode&quot;,&quot;Lucida Sans&quot;,Geneva,Arial,sans-serif;letter-spacing: -.02em;font-weight: 700;font-style: normal;letter-spacing: 0;font-size: 52px;padding-top: 6px;margin-right: 7px;letter-spacing: -.03em;line-height: .33;margin-bottom: -.08em;display: block;position: relative;float: left;">
+									R</span>azorpay make it easier for you to focus on building 
+great products while we work on simplifying your payments with easiest 
+way to accept, process and disburse digital payments for businesses in 
+India. You can do the easiest integration, completely online onboarding,
+ best in class performance and feature filled checkout. Quickly go live 
+with Razorpay as shown below.</p>
+                                    <h3 name="03c0" id="03c0" class="monika-sub-heading">#1.Creating an account</h3>
+									<ul class="monika-content-p" style="list-style: inherit;">
+									<li>Create an <a target="_blank" href="https://dashboard.razorpay.com/#/access/signup">Razorpay Account.</a></li>
+									<li>Verify your account by activating the link mailed to your account.</li>
+									 <br>
+									<img src="Razorpay%20Basic%20Payment%20Integration_files/monika_razorpay_signup.png" class="img-responsive" alt="monika_razorpay_signup">
+									</ul>
+									<br>
+									
+									<h3 name="03c0" id="03c0" class="monika-sub-heading">#2. Getting AP</h3>
+									<ul class="monika-content-p" style="list-style: inherit;">
+									<li>Login into <a target="_blank" href="https://dashboard.razorpay.com/#/access/signin"> Razorpay Dashboard.</a></li>
+									<li>You can switch the mode to either live or test.</li>
+									<p style="text-align:center"><span style="background-color:#cee8f4;"> Note: By default it will be in test mode. To enable live mode you need to provide required documents ( <strong>It will take 2-3 business day to activate live mode </strong>). </span></p> 
+
+									<li>Go to settings, choose API keys tab and click on generate test key (Test Mode)</li>
+									<br>
+									<img src="Razorpay%20Basic%20Payment%20Integration_files/monika_razorpay_key_generate.png" class="img-responsive" alt="monika_razorpay_key_generate">
+									<br>
+									<li>Save the Key Id and Key Secret (You can also download)</li>
+									</ul>
+									
+									<h3 name="03c0" id="03c0" class="monika-sub-heading">#3. Integration of source code</h3>
+									<ul class="monika-content-p" style="list-style: inherit;">
+									<li>Copy and paste the below code on your webpage.</li>
+									<br>
+									<pre style="color:#000000;background:#ffffff;"><span style="color:#a65700; ">&lt;</span><span style="color:#800000; font-weight:bold; ">meta</span><span style="color:#274796; "> </span><span style="color:#074726; ">name</span><span style="color:#808030; ">=</span><span style="color:#0000e6; ">"viewport"</span><span style="color:#274796; "> </span><span style="color:#074726; ">content</span><span style="color:#808030; ">=</span><span style="color:#0000e6; ">"width=device-width"</span><span style="color:#a65700; ">&gt;</span>
+<span style="color:#a65700; ">&lt;</span><span style="color:#800000; font-weight:bold; ">form</span><span style="color:#274796; "> </span><span style="color:#074726; ">action</span><span style="color:#808030; ">=</span><span style="color:#0000e6; ">"/purchase"</span><span style="color:#274796; "> </span><span style="color:#074726; ">method</span><span style="color:#808030; ">=</span><span style="color:#0000e6; ">"POST"</span><span style="color:#a65700; ">&gt;</span>
+<span style="color:#696969; ">&lt;!-- Note that the amount is in paise = 50 INR --&gt;</span>
+<span style="color:#a65700; ">&lt;</span><span style="color:#800000; font-weight:bold; ">script</span><span style="color:#5f5035; "></span>
+<span style="color:#274796; ">&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color:#074726; ">src</span><span style="color:#808030; ">=</span><span style="color:#0000e6; ">"https://checkout.razorpay.com/v1/checkout.js"</span><span style="color:#274796; "></span>
+<span style="color:#274796; ">&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color:#074726; ">data</span><span style="color:#274796; ">-key</span><span style="color:#808030; ">=</span><span style="color:#0000e6; ">"&lt;YOUR_KEY_ID&gt;"</span><span style="color:#274796; "></span>
+<span style="color:#274796; ">&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color:#074726; ">data</span><span style="color:#274796; ">-amount</span><span style="color:#808030; ">=</span><span style="color:#0000e6; ">"50000"</span><span style="color:#274796; "></span>
+<span style="color:#274796; ">&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color:#074726; ">data</span><span style="color:#274796; ">-buttontext</span><span style="color:#808030; ">=</span><span style="color:#0000e6; ">"Pay with monika"</span><span style="color:#274796; "></span>
+<span style="color:#274796; ">&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color:#074726; ">data</span><span style="color:#274796; ">-</span><span style="color:#074726; ">name</span><span style="color:#808030; ">=</span><span style="color:#0000e6; ">"Merchant Name"</span><span style="color:#274796; "></span>
+<span style="color:#274796; ">&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color:#074726; ">data</span><span style="color:#274796; ">-description</span><span style="color:#808030; ">=</span><span style="color:#0000e6; ">"Purchase Description"</span><span style="color:#274796; "></span>
+<span style="color:#274796; ">&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color:#074726; ">data</span><span style="color:#274796; ">-image</span><span style="color:#808030; ">=</span><span style="color:#0000e6; ">"https://your-awesome-site.com/your_logo.jpg"</span><span style="color:#274796; "></span>
+<span style="color:#274796; ">&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color:#074726; ">data</span><span style="color:#274796; ">-prefill</span><span style="color:#008c00; ">.</span><span style="color:#074726; ">name</span><span style="color:#808030; ">=</span><span style="color:#0000e6; ">"monika"</span><span style="color:#274796; "></span>
+<span style="color:#274796; ">&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color:#074726; ">data</span><span style="color:#274796; ">-prefill</span><span style="color:#008c00; ">.</span><span style="color:#274796; ">email</span><span style="color:#808030; ">=</span><span style="color:#0000e6; ">"contact@monika.com"</span><span style="color:#274796; "></span>
+<span style="color:#274796; ">&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color:#074726; ">data</span><span style="color:#274796; ">-theme</span><span style="color:#008c00; ">.</span><span style="color:#074726; ">color</span><span style="color:#808030; ">=</span><span style="color:#0000e6; ">"#F37254"</span><span style="color:#274796; "></span>
+<span style="color:#a65700; ">&gt;</span><span style="color:#a65700; ">&lt;/</span><span style="color:#800000; font-weight:bold; ">script</span><span style="color:#a65700; ">&gt;</span>
+<span style="color:#a65700; ">&lt;</span><span style="color:#800000; font-weight:bold; ">input</span><span style="color:#274796; "> </span><span style="color:#074726; ">type</span><span style="color:#808030; ">=</span><span style="color:#0000e6; ">"hidden"</span><span style="color:#274796; "> </span><span style="color:#074726; ">value</span><span style="color:#808030; ">=</span><span style="color:#0000e6; ">"Hidden Element"</span><span style="color:#274796; "> </span><span style="color:#074726; ">name</span><span style="color:#808030; ">=</span><span style="color:#0000e6; ">"hidden"</span><span style="color:#a65700; ">&gt;</span>
+<span style="color:#a65700; ">&lt;/</span><span style="color:#800000; font-weight:bold; ">form</span><span style="color:#a65700; ">&gt;</span>
+</pre>
+
+									<li>Now replace the key-id in the above code and save the file with .html.</li>
+									<p style="text-align:center"><span style="background-color:#cee8f4;"> Note: For live change the mode in top nav bar and copy the <strong>LIVE KEY-ID </strong>. </span></p>
+										<li>You can see the demo below.</li>
+
+<br>
+
+									<form action="/purchase" method="POST">
+<!-- Note that the amount is in paise = 50 INR -->
+<script src="Razorpay%20Basic%20Payment%20Integration_files/checkout.js" data-key="rzp_test_awgK1Lydy85zTI" data-amount="50000" data-buttontext="monika Razorpay Basic Payment Demo" data-button.colour="#00a1f1" data-name="monika" data-description="Payment Gateway Integration" data-image="https://monika.com/images/logo.png" data-prefill.name="monika" data-prefill.email="contact@monika.com" data-theme.color="#00a1f1"></script><input type="submit" value="monika Razorpay Basic Payment Demo" class="razorpay-payment-button">
+<input type="hidden" value="Hidden Element" name="hidden">
+</form>
+
+<style type="text/css">
+	.razorpay-payment-button{
+		    background-color: #00a1f1;
+    border-color: #00a1f1;
+    color: #fff;
+}
+	}
+</style>
+
+									
+									
+									
+							
+									
+                                    <br>
+										<style>
+									
+									div.laptop-wrapper {
+										position: relative;
+										padding-top: 25px;
+										padding-bottom: 67.5%;
+										height: 0;
+									}
+									div.laptop-wrapper iframe {
+										box-sizing: border-box;
+										background: url(https://i.stack.imgur.com/zZNgk.png) center center no-repeat;
+										background-size: contain;
+										padding: 11.9% 15.5% 14.8%;
+										position: absolute;
+										top: 0;
+										left: 0;
+										width: 100%;
+										height: 100%;
+									}
+
+									</style>  
+									 
+
+									
+									
+									
+								
+									<div class="sidebar-item tag-cloud">
+									<h3 style="text-align:center" class="monika-content-p">Frequent Viewed Posts</h3>
+									
+			<div class="row">
+                   <div class="col-md-6  wow fadeInLeft animated animated animated animated" data-wow-duration="1000ms" data-wow-delay="300ms" style="visibility: visible; animation-duration: 1000ms; animation-delay: 300ms; animation-name: fadeInLeft;">
+							<div class="single-blog timeline">
+								<div class="single-blog-wrapper">
+									<div class="post-thumb">
+										<img src="Razorpay%20Basic%20Payment%20Integration_files/monika-hubspot-api-home.png" class="img-responsive" alt="monika-hubspot-api-home">
+										<div class="post-overlay">
+										<span class="uppercase"><a href="#">20 <br><small>Feb</small></a></span>
+									</div>
+									</div>
+								</div>
+								<div class="post-content overflow">
+									<h2 class="post-title bold"><strong><a href="http://localhost/monika/blog/2022/02/hubspot-add-contacts-using-api">Adding Hubspot Contact Using API</a></strong></h2>
+									<h3 class="post-author"><a href="#">Posted by monika</a></h3>
+									<p class="monika-content-p">Your HubSpot contacts database 
+draws details from every touchpoint between your leads and your brand 
+and organizes them all for you in one place. Your contacts database is 
+the heart ...</p>
+									<a href="http://localhost/monika/blog/2022/02/hubspot-add-contacts-using-api" style="text-align:center !important" class="">View More</a>
+									<div class="post-bottom overflow">
+										<span class="post-date pull-left">February 20, 2018</span>
+										<span class="comments-number pull-right"><a href="#"><i class="fa fa-tag"></i> PayPal API</a></span>
+									</div>
+								</div>
+							</div>
+                        </div>
+                          <div class="col-md-6  wow fadeInLeft animated animated animated animated" data-wow-duration="1000ms" data-wow-delay="300ms" style="visibility: visible; animation-duration: 1000ms; animation-delay: 300ms; animation-name: fadeInLeft;">
+								<div class="single-blog timeline">
+									<div class="single-blog-wrapper">
+										<div class="post-thumb">
+											<img src="Razorpay%20Basic%20Payment%20Integration_files/monika-razorpay-recurring-payment-home.png" class="img-responsive" alt="monika-razorpay-recurring-payment-home">
+											<div class="post-overlay">
+											<span class="uppercase"><a href="#">18 <br><small>Feb</small></a></span>
+										</div>
+										</div>
+									</div>
+									<div class="post-content overflow">
+										<h2 class="post-title bold"><strong><a href="http://localhost/monika/blog/2022/02/razorpay-subscription-payment">Razorpay Recurring Subscriptions</a></strong></h2>
+										<h3 class="post-author"><a href="#">Posted by monika</a></h3>
+										<p class="monika-content-p">Using Razorpay Subscriptions you 
+can automatically charge customers based on a billing cycle that you 
+control. You can easily create and manage recurring payments and get 
+instant alerts on payment activity as well as the status of 
+subscriptions ...</p>
+										<a href="http://localhost/monika/blog/2022/02/razorpay-subscription-payment" style="text-align:center !important" class="">View More</a>
+										<div class="post-bottom overflow">
+											<span class="post-date pull-left">February 18, 2018</span>
+											<span class="comments-number pull-right"><a href="#"><i class="fa fa-tag"></i> PayPal API</a></span>
+										</div>
+									</div>
+								</div>
+                        </div>
+                           <div class="col-md-6 padding-top wow fadeInLeft animated animated animated" data-wow-duration="1000ms" data-wow-delay="300ms" style="visibility: hidden; animation-duration: 1000ms; animation-delay: 300ms; animation-name: none;">
+								<div class="single-blog timeline">
+										<div class="single-blog-wrapper">
+											<div class="post-thumb">
+												<img src="Razorpay%20Basic%20Payment%20Integration_files/monika-paypal-recurring-payment-home.png" class="img-responsive" alt="monika-paypal-recurring-payment-home">
+												<div class="post-overlay">
+												<span class="uppercase"><a href="#">14 <br><small>Feb</small></a></span>
+											</div>
+											</div>
+										</div>
+										<div class="post-content overflow">
+											<h2 class="post-title bold"><strong><a href="http://localhost/monika/blog/2022/02/paypal-express-checkout-payment">PayPal Express Checkout Integration</a></strong></h2>
+											<h3 class="post-author"><a href="#">Posted by monika</a></h3>
+											<p class="monika-content-p">PayPal is one of the most popular
+ online payment gateway today. That's why every web development 
+professional have to know how to integrate PayPal payments ...</p>
+											<a href="http://localhost/monika/blog/2022/02/paypal-express-checkout-payment" style="text-align:center !important" class="">View More</a>
+											<div class="post-bottom overflow">
+												<span class="post-date pull-left">February 14, 2018</span>
+												<span class="comments-number pull-right"><a href="#"><i class="fa fa-tag"></i> PayPal API</a></span>
+											</div>
+										</div>
+									</div>
+                        </div>
+						 <div class="col-md-6  padding-top wow fadeInLeft animated animated animated" data-wow-duration="1000ms" data-wow-delay="300ms" style="visibility: hidden; animation-duration: 1000ms; animation-delay: 300ms; animation-name: none;">
+							<div class="single-blog timeline">
+									<div class="single-blog-wrapper">
+										<div class="post-thumb">
+											<img src="Razorpay%20Basic%20Payment%20Integration_files/monika-paypal-recurring-payment-home.png" class="img-responsive" alt="monika-paypal-recurring-payment-home">
+											<div class="post-overlay">
+											<span class="uppercase"><a href="#">12 <br><small>Feb</small></a></span>
+										</div>
+										</div>
+									</div>
+									<div class="post-content overflow">
+										<h2 class="post-title bold"><strong><a href="http://localhost/monika/blog/2022/02/paypal-recurring-payment">PayPal Recurring Payment Integration</a></strong></h2>
+										<h3 class="post-author"><a href="#">Posted by monika</a></h3>
+										<p class="monika-content-p">PayPal is one of the most popular 
+online payment gateway today. That's why every web development 
+professional have to know how to integrate PayPal payments ...</p>
+										<a href="http://localhost/monika/blog/2022/02/paypal-recurring-payment" style="text-align:center !important" class="">View More</a>
+										<div class="post-bottom overflow">
+											<span class="post-date pull-left">February 12, 2018</span>
+											<span class="comments-number pull-right"><a href="#"><i class="fa fa-tag"></i> PayPal API</a></span>
+										</div>
+									</div>
+								</div>
+                        </div>
+						
+            </div>
+	
+	
+									</div>
+                                   
+                                </ul></div>
+                            </div>
+                        </div>
+                   
+						<div class="col-md-2 col-sm-2"></div>
+				   </div>
+                 </div>
+				 
+             </div>
+        </div>
+    </section><div class="razorpay-container" style="z-index: 2147483647; position: fixed; top: 0px; display: none; left: 0px; height: 100%; width: 100%; backface-visibility: hidden; overflow-y: visible;"><style>@keyframes rzp-rot{to{transform: rotate(360deg);}}@-webkit-keyframes rzp-rot{to{-webkit-transform: rotate(360deg);}}</style><div class="razorpay-backdrop" style="min-height: 100%; transition: all 0.3s ease-out 0s; position: fixed; top: 0px; left: 0px; width: 100%; height: 100%;"><span style="text-decoration: none; background: rgb(214, 68, 68); border: 1px dashed white; padding: 3px; opacity: 0; transform: rotate(45deg); transition: opacity 0.3s ease-in 0s; font-family: lato, ubuntu, helvetica, sans-serif; color: white; position: absolute; width: 200px; text-align: center; right: -50px; top: 50px;">Test Mode</span></div><iframe style="opacity: 1; height: 100%; position: relative; background: none; display: block; border: 0 none transparent; margin: 0px; padding: 0px; z-index: 2;" allowtransparency="true" allowpaymentrequest="true" src="https://api.razorpay.com/v1/checkout/public?traffic_env=production&amp;build=09bc8ab370be6bb0edafd9a2a7cbf1fa08aa382c" class="razorpay-checkout-frame" width="100%" height="100%" frameborder="0"></iframe></div>
+    <!--/#blog-->
+
+     <footer id="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12 text-center bottom-separator">
+                    <img src="Razorpay%20Basic%20Payment%20Integration_files/under.png" class="img-responsive inline" alt="">
+                </div>
+        <div class="col-md-1">
+        </div>
+          <div class="col-md-2">
+             <div class="testimonial bottom">
+                        <h2>Our Services</h2>
+                        <div class="media">
+                           <a href="https://www.monika.com/Web-Development" style="color:#000 "><img src="Razorpay%20Basic%20Payment%20Integration_files/web.png" alt=""> WEB DEVELOPMENT</a>
+                        </div>
+            <div class="media">
+                           <a href="https://www.monika.com/Android-Development" style="color:#000 "><img src="Razorpay%20Basic%20Payment%20Integration_files/android.png" alt=""> ANDROID DESIGN</a>
+                        </div>
+            <div class="media">
+                           <a href="https://www.monika.com/Digital-Marketing" style="color:#000 "><img src="Razorpay%20Basic%20Payment%20Integration_files/digital.png" alt=""> DIGITAL MARKETING</a>
+                        </div>
+            <div class="media">
+                           <a href="https://www.monika.com/SEO" style="color:#000 "><img src="Razorpay%20Basic%20Payment%20Integration_files/seo.png" alt=""> SEO</a>
+                        </div>
+            
+                           
+            </div>
+          
+        </div>
+          <div class="col-md-2">
+             <div class="testimonial bottom">
+                        <h2> </h2>
+            <div class="media">
+                          
+                        </div>
+            <div class="media">
+                           <a href="https://www.monika.com/Email-Marketing" style="color:#000 "><img src="Razorpay%20Basic%20Payment%20Integration_files/email.png" alt=""> EMAIL MARKETING</a>
+                        </div>
+                        <div class="media">
+                           <a href="https://www.monika.com/Payment" style="color:#000 "><img src="Razorpay%20Basic%20Payment%20Integration_files/payment.png" alt=""> PAYMENT GATEWAY</a>
+                        </div>
+            <div class="media">
+                           <a href="https://www.monika.com/Cloud-Hosting" style="color:#000 "><img src="Razorpay%20Basic%20Payment%20Integration_files/cloud.png" alt=""> CLOUD HOSTING</a>
+                        </div>
+            
+                           
+            </div>
+          
+        </div>
+        <div class="col-md-2">
+          <div class="row">
+                           <h2></h2>
+                    </div>
+          <img class="img-responsive" src="Razorpay%20Basic%20Payment%20Integration_files/monika-footer.png" alt="logo">
+        </div>
+        <div class="col-md-2" style="text-align:center;">
+             <div class="testimonial bottom">
+                        
+            <h2>GET IN TOUCH</h2>
+            <div class="media">
+                           <a href="#" style="color:#000 "> BLOG</a>
+                        </div>
+                        <div class="media">
+                           <a href="https://www.monika.com/contact-us" style="color:#000 "> CONTACT-US</a>
+                        </div>
+            <div class="media">
+                           <a href="https://www.monika.com/about-us" style="color:#000 "> ABOUT-US</a>
+                        </div>
+            <div class="media">
+                           <a href="#" style="color:#000 "> DONATE-US</a>
+                        </div>
+            
+                           
+            </div>
+          
+        </div>
+        <div class="col-md-2" style="text-align:center;">
+             <div class="testimonial bottom">
+                        <h2> STAY WITH US</h2>
+                        <!-- <div class="media">
+                           <a target="_blank" href="#" style="color:#000 "> FACEBOOK</a>
+                        </div> -->
+                        <div class="media">
+                           <a target="_blank" href="https://twitter.com/monika" style="color:#000 "> TWITTER</a>
+                        </div>
+                        <div class="media">
+                           <a target="_blank" href="https://www.youtube.com/channel/UCnPSSSABeuZTSI6QQI8SXBA" style="color:#000 "> YOUTUBE</a>
+                        </div>
+                        <!-- <div class="media">
+                           <a href="#" style="color:#000 "> INSTAGRAM</a>
+                        </div> -->
+            
+                           
+            </div>
+          
+        </div>
+          
+        <div class="col-md-1">
+        </div>
+        
+                
+                <div class="col-sm-12">
+                    <div class="copyright-text text-center">
+            <p>© <a target="_blank" style="color:#00a1f1" href="http://www.monika.com/">monika</a> 2023. All Rights Reserved.</p>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <!--/#footer-->
+
+
+    <script type="text/javascript" src="Razorpay%20Basic%20Payment%20Integration_files/jquery.js"></script>
+    <script type="text/javascript" src="Razorpay%20Basic%20Payment%20Integration_files/bootstrap.min.js"></script>
+    <script type="text/javascript" src="Razorpay%20Basic%20Payment%20Integration_files/lightbox.min.js"></script>
+    <script type="text/javascript" src="Razorpay%20Basic%20Payment%20Integration_files/wow.min.js"></script>
+    <script type="text/javascript" src="Razorpay%20Basic%20Payment%20Integration_files/main.js"></script>   
+
+
+<div id="lightboxOverlay" class="lightboxOverlay" style="display: none;"></div><div id="lightbox" class="lightbox" style="display: none;"><div class="lb-outerContainer"><div class="lb-container"><img class="lb-image" src=""><div class="lb-nav"><a class="lb-prev" href=""></a><a class="lb-next" href=""></a></div><div class="lb-loader"><a class="lb-cancel"></a></div></div></div><div class="lb-dataContainer"><div class="lb-data"><div class="lb-details"><span class="lb-caption"></span><span class="lb-number"></span></div><div class="lb-closeContainer"><a class="lb-close"></a></div></div></div></div><div id="stcpDiv" style="position: absolute; top: -1999px; left: -1988px;">ShareThis Copy and Paste</div><div id="stwrapper" class="stwrapper stwrapper5x stwrapper5x" style="display: none;"><iframe allowtransparency="true" id="stLframe" class="stLframe" name="stLframe" scrolling="no" src="Razorpay%20Basic%20Payment%20Integration_files/index.html" frameborder="0"></iframe></div><div id="stOverlay" onclick="javascript:stWidget.closeWidget();"></div></body></html>
